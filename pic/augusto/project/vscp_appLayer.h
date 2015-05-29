@@ -14,6 +14,13 @@ extern "C" {
 #define VSCP_EEPROM_NICKNAME            0x01	// Persistant nickname id storage
 #define VSCP_EEPROM_SEGMENT_CRC         0x02    // Persistant segment crc storage
 #define VSCP_EEPROM_ZONE                0x03    // Persistant vscp zone
+
+
+#define VSCP_DM_EEPROM_START_LOC 0x100
+#define VSCP_EEPROM_USERID 0x20
+#define VSCP_EEPROM_MANUFACTUR_ID 0x20
+#define VSCP_CHECKSUM 0x20
+
     
 //EEPROM-mirrored variables
 uint8_t vscp_zone;

@@ -3,7 +3,7 @@
 #include <vscp_class.h>
 #include <vscp_type.h>
 #include <xc.h>
-#include <can18f.h>
+#include <ecan.h>
 
 //Definition of I/O
 volatile unsigned char *IN_PIN_PORT[PIN_IN_SIZE] = {&PORTD, &PORTD, &PORTD, &PORTD, &PORTB, &PORTB, &PORTB, &PORTA};
@@ -205,7 +205,7 @@ void hardware_setup(){
         setOutput(i, 1);
     }
 
-    vscp18f_init( TRUE );
+    ECANInitialize();
     TMR0_setup();
     hardware_reinit();
     ei(); 

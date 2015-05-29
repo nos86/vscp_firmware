@@ -74,7 +74,10 @@
  * Remove these definations if they are already defined in one of your
  * application files.
  ********************************************************************/
-typedef enum _BOOL { FALSE = 0, TRUE } BOOL;
+#ifndef _BOOL
+typedef enum _BOOL { FALSE = 0, TRUE } BOOL;    /* Undefined size */
+#define _BOOL _BOOL
+#endif
 typedef unsigned char BYTE;
 
 typedef union _BYTE_VAL
@@ -1635,7 +1638,7 @@ void _CANIDToRegs(BYTE* ptr,
      * Set following line to "#if 0" after verifiying correct
      * compiler behavior.
      */
-    #if 1
+    #if 0
         static struct
         {
             unsigned : 7;
@@ -1667,7 +1670,11 @@ void _CANIDToRegs(BYTE* ptr,
         } TXB2CONbits @ 0xf20;
         #define TXB2CON_TXREQ       TXB2CONbits.TXREQ
     #else
-        #define RXB1CON_RXFUL       RXB1RXFUL
+        #ifdef RXB1RXFUL
+            #define RXB1CON_RXFUL       RXB1RXFUL
+        #else
+            #define RXB1CON_RXFUL       RXB1FUL
+        #endif
         #define TXB1CON_TXREQ       TXB1REQ
         #define TXB2CON_TXREQ       TXB2REQ
     #endif
@@ -1701,7 +1708,7 @@ void _CANIDToRegs(BYTE* ptr,
 
 
     #define RXB0CON_RXB0DBEN        RXBODBEN
-    static volatile near bit        RXBODBEN   @ ((unsigned)&RXB0CON*8)+2;
+    //static volatile near bit        RXBODBEN   @ ((unsigned)&RXB0CON*8)+2;
 
 
 #endif

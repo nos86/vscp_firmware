@@ -8,7 +8,8 @@
 #include "vscp_type.h"
 
 #include <driver.h>
-#include <can18f.h>
+//#include <can18f.h>
+#include <ECAN.h>
 
 extern const char mdfLink[];
 struct _dmrow decisionMatrix[VSCP_DM_SIZE];
@@ -138,8 +139,7 @@ int8_t sendVSCPFrame( uint16_t vscpclass, uint8_t vscptype, uint8_t nodeid,
 			( (uint32_t)vscpclass << 16 ) |
 			( (uint32_t)vscptype << 8) |
 			nodeid;		// nodeaddress (our address)
-
-	if ( !vscp18f_sendMsg( id, pData, size,  CAN_TX_XTD_FRAME) ) {
+	if ( !ECANSendMessage(id, pData, size, ECAN_TX_XTD_FRAME) ) {
 		// Failed to send message
 		vscp_errorcnt++;
 		return FALSE;
@@ -151,14 +151,14 @@ int8_t sendVSCPFrame( uint16_t vscpclass, uint8_t vscptype, uint8_t nodeid,
 int8_t getVSCPFrame( uint16_t *pvscpclass, uint8_t *pvscptype, uint8_t *pNodeId,
                      uint8_t *pPriority, uint8_t *pSize, uint8_t *pData ){
 	uint32_t id;
-        uint8_t flags;
+        ECAN_RX_MSG_FLAGS flags;
 	// Dont read in new message if there already is a message
 	// in the input buffer
 	if ( vscp_imsg.flags & VSCP_VALID_MSG ) return TRUE;
 
-	if ( vscp18f_readMsg( &id, pData, pSize, &flags ) ) {
-            if ( flags & CAN_RX_RTR_FRAME ) return FALSE; // RTR not interesting
-            if ( !( flags & CAN_RX_XTD_FRAME ) ) return FALSE; // Must be extended frame
+	if ( ECANReceiveMessage(&id, pData, pSize,  &flags) ) {
+            if ( flags == ECAN_RX_RTR_FRAME ) return FALSE; // RTR not interesting
+            if ( flags != ECAN_RX_XTD_FRAME ) return FALSE; // Must be extended frame
             *pNodeId = id & 0x0ff;
             *pvscptype = ( id >> 8 ) & 0xff;
             *pvscpclass = ( id >> 16 ) & 0x1ff;
