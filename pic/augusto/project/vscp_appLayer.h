@@ -8,7 +8,7 @@
 extern "C" {
 #endif
 
-
+#define VSCP_TX_MAX_TRIAL 3 //Max Trial before abort (based on 1mS)
 
 #define VSCP_EEPROM_BOOTLOADER_FLAG	0x00    // Reserved for bootloader
 #define VSCP_EEPROM_NICKNAME            0x01	// Persistant nickname id storage

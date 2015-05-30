@@ -138,12 +138,20 @@ int8_t sendVSCPFrame( uint16_t vscpclass, uint8_t vscptype, uint8_t nodeid,
 			( (uint32_t)vscpclass << 16 ) |
 			( (uint32_t)vscptype << 8) |
 			nodeid;		// nodeaddress (our address)
-	if ( !ECANSendMessage(id, pData, size, ECAN_TX_XTD_FRAME) ) {
+        uint8_t maxTxTrial = 0;
+	while(!ECANSendMessage(id, pData, size, ECAN_TX_XTD_FRAME) & 
+                !ECANIsBusOff() &
+                maxTxTrial<VSCP_TX_MAX_TRIAL) {
 		// Failed to send message
-		vscp_errorcnt++;
-		return FALSE;
+		__delay_ms(1);
+		maxTxTrial++;
 	}
-	return TRUE;
+        if (!ECANIsBusOff() & maxTxTrial<VSCP_TX_MAX_TRIAL){
+            return TRUE;
+        }else{
+            vscp_errorcnt++;
+            return FALSE;
+        }
 }
 
 
@@ -157,7 +165,6 @@ int8_t getVSCPFrame( uint16_t *pvscpclass, uint8_t *pvscptype, uint8_t *pNodeId,
 	if ( vscp_imsg.flags & VSCP_VALID_MSG ) return TRUE;
 
 	if ( ECANReceiveMessage(&id, pData, pSize,  &flags) ) {
-            redLed_pin = 0;
             if ( flags == ECAN_RX_RTR_FRAME ) return FALSE; // RTR not interesting
             if ( flags != ECAN_RX_XTD_FRAME ) return FALSE; // Must be extended frame
             *pNodeId = id & 0x0ff;

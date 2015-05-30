@@ -39,7 +39,7 @@
 #ifndef ECAN_H          // To avoid duplicate inclusion
 #define ECAN_H
 
-#include   "ecan.def"
+#include   "ECANPoll.def"
 
 #if defined(HI_TECH_C)
     #define HITECH_C18

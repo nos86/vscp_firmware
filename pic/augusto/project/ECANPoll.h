@@ -1503,7 +1503,7 @@ void _CANIDToRegs(BYTE* ptr,
 #endif
 
 #if defined(HITECH_C18)
-    #define COMSTAT_TXB0            TXB0
+    #define COMSTAT_TXB0            COMSTATbits.TXBO
     #define COMSTAT_TXBP            TXBP
     #define COMSTAT_RXBP            RXBP
     #define CANCON_ABAT             ABAT

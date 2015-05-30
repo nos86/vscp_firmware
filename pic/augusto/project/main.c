@@ -38,7 +38,6 @@
 #include "main.h"
 
 #include <eeprom.h>
-#include <can18f.h>
 #include <vscp_firmware.h>
 #include <vscp_class.h>	
 #include <vscp_type.h>
@@ -168,29 +167,28 @@ void main(){
             vscp_omsg.vscp_type = 0x01;
             for (uint8_t i=0; i<8; i++)
                 vscp_omsg.data[i] = hardware_saveStructForInput(hardware_input[i]);
-            //vscp_sendEvent();
+            if(!vscp_sendEvent()) redLed_pin = 0;
 
             vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
             vscp_omsg.vscp_type = 0x02;
             for (uint8_t i=0; i<8; i++)
                 vscp_omsg.data[i] = hardware_saveStructForOutput(hardware_output[i]);
             // send the event
-            vscp_sendEvent();
+            if(!vscp_sendEvent()) redLed_pin = 0;
 
-//            vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
-//            vscp_omsg.vscp_type = 0x03;
-//            for (uint8_t i=0; i<8; i++)
-//                vscp_omsg.data[i] = subzoneForInput[i];
-//            // send the event
-//            vscp_sendEvent();
+            vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
+            vscp_omsg.vscp_type = 0x03;
+            for (uint8_t i=0; i<8; i++)
+                vscp_omsg.data[i] = hardware_subzoneForInput[i];
+            // send the event
+            if(!vscp_sendEvent()) redLed_pin = 0;
 
             vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
             vscp_omsg.vscp_type = 0x04;
             for (uint8_t i=0; i<8; i++)
                 vscp_omsg.data[i] = hardware_subzoneForOutput[i];
             // send the event
-            vscp_sendEvent();
-
+            if(!vscp_sendEvent()) redLed_pin = 0;
 
             for (uint8_t i=0; i<8; i++)
                 setOutput(i,hardware_input[i].currentStatus);
