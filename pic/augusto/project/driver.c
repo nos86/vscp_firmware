@@ -3,7 +3,7 @@
 #include <vscp_class.h>
 #include <vscp_type.h>
 #include <xc.h>
-#include <ecan.h>
+#include <ECANPoll.h>
 
 //Definition of I/O
 volatile unsigned char *IN_PIN_PORT[PIN_IN_SIZE] = {&PORTD, &PORTD, &PORTD, &PORTD, &PORTB, &PORTB, &PORTB, &PORTA};

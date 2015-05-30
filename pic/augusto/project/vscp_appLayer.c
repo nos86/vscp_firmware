@@ -8,8 +8,7 @@
 #include "vscp_type.h"
 
 #include <driver.h>
-//#include <can18f.h>
-#include <ECAN.h>
+#include <ECANPoll.h>
 
 extern const char mdfLink[];
 struct _dmrow decisionMatrix[VSCP_DM_SIZE];
@@ -154,9 +153,11 @@ int8_t getVSCPFrame( uint16_t *pvscpclass, uint8_t *pvscptype, uint8_t *pNodeId,
         ECAN_RX_MSG_FLAGS flags;
 	// Dont read in new message if there already is a message
 	// in the input buffer
+        
 	if ( vscp_imsg.flags & VSCP_VALID_MSG ) return TRUE;
 
 	if ( ECANReceiveMessage(&id, pData, pSize,  &flags) ) {
+            redLed_pin = 0;
             if ( flags == ECAN_RX_RTR_FRAME ) return FALSE; // RTR not interesting
             if ( flags != ECAN_RX_XTD_FRAME ) return FALSE; // Must be extended frame
             *pNodeId = id & 0x0ff;
