@@ -11,8 +11,12 @@
 #include <ECANPoll.h>
 
 extern const char mdfLink[];
-struct _dmrow decisionMatrix[VSCP_DM_SIZE];
+
+const uint8_t *GuID_LSB = ( uint8_t * ) 0x200000;
+
 uint8_t vscp_zone;
+
+struct _dmrow decisionMatrix[VSCP_DM_SIZE];
 
 /* Main flow chart */
 void vscp_freeRunning(){
@@ -195,73 +199,14 @@ void sendDMatrixInfo( void ){
 //////////////////////////////////////////////////////////////////////////////
 
 
-///////////////////////////////////////////////////////////////////////////////
-//  getNickname
-//
-
-uint8_t vscp_getNickname( void )
-{
-    return readEEPROM( VSCP_EEPROM_NICKNAME );
-}
-
-///////////////////////////////////////////////////////////////////////////////
-//  setNickname
-//
-
-void vscp_setNickname( uint8_t nickname )
-{
-    return; //Read Only
-}
-
-
-uint32_t vscp_getFamilyCode(void){return deviceFamilyCode;}
-uint32_t vscp_getFamilyType(void){return deviceFamilyType;}
-
 void vscp_restoreDefaults(void){
     //TODO EEPROM REINIT
 }
 
 
-uint8_t vscp_getMajorVersion(void){ return APP_MAJOR_VERSION;}
-uint8_t vscp_getMinorVersion(void){ return APP_MINOR_VERSION;}
-uint8_t vscp_getSubMinorVersion(void){ return APP_SUB_VERSION;}
-
-uint8_t vscp_getGUID(uint8_t idx){
-    if (idx<16) 
-        return GuID[idx];
-    else return 0;
-}
-void vscp_setGUID(uint8_t idx, uint8_t data){
-    return; //Read Only
-}
-
-/*!
-        User ID 0 idx=0
-        User ID 1 idx=1
-        User ID 2 idx=2
-        User ID 3 idx=3
- */
-uint8_t vscp_getUserID(uint8_t idx){ if (idx<5) return eeprom_read(VSCP_EEPROM_USERID + idx); else return 0;}
-void vscp_setUserID(uint8_t idx, uint8_t data){if (idx<5) eeprom_write(VSCP_EEPROM_USERID + idx, data);}
-
-/*!
-        Handle manufacturer id.
-
-        Not that both main and sub id are fetched here
-                Manufacturer device ID byte 0 - idx=0
-                Manufacturer device ID byte 1 - idx=1
-                Manufacturer device ID byte 2 - idx=2
-                Manufacturer device ID byte 3 - idx=3
-                Manufacturer device sub ID byte 0 - idx=4
-                Manufacturer device sub ID byte 1 - idx=5
-                Manufacturer device sub ID byte 2 - idx=6
-                Manufacturer device sub ID byte 3 - idx=7
- */
-uint8_t vscp_getManufacturerId(uint8_t idx){ if (idx<8) return eeprom_read(VSCP_EEPROM_MANUFACTUR_ID+idx); else return 0;}
-void vscp_setManufacturerId(uint8_t idx, uint8_t data){ if (idx<8) eeprom_write(VSCP_EEPROM_MANUFACTUR_ID+idx, data);}
 
 
-uint8_t vscp_getBootLoaderAlgorithm(void){ return VSCP_BOOTLOADER_VSCP;}
+
 
 uint8_t vscp_getBufferSize(void){ return 8;}
 
@@ -269,31 +214,6 @@ uint8_t vscp_getBufferSize(void){ return 8;}
         Get number of register pages used by app.
  */
 uint8_t vscp_getRegisterPagesUsed(void){ return 0;}
-
-/*!
-        Get URL from device from permanent storage
-        index 0-15
- */
-uint8_t vscp_getMDF_URL(uint8_t idx){ return mdfLink[idx];}
-
-/*!
-        Fetch nickname from permanent storage
-        @return read nickname.
- */
-uint8_t vscp_readNicknamePermanent(void){ return eeprom_read(VSCP_EEPROM_NICKNAME); }
-void vscp_writeNicknamePermanent(uint8_t nickname){ eeprom_write(VSCP_EEPROM_NICKNAME, nickname); }
-
-/*!
-        Fetch segment CRC from permanent storage
- */
-uint8_t vscp_getSegmentCRC(void){ return 0x40; }
-void vscp_setSegmentCRC(uint8_t crc){ eeprom_write(VSCP_CHECKSUM, crc); }
-
-/*!
-        Write control byte permanent storage
- */
-void vscp_setControlByte(uint8_t ctrl){}
-uint8_t vscp_getControlByte(void){ return 0;}
 
 /*!
         Get page select bytes
@@ -331,21 +251,14 @@ uint8_t vscp_writeAppReg(uint8_t reg, uint8_t value){ return 0;}
         byte 6 - Level II size of DM row (Just for Level II nodes).
  */
 void vscp_getMatrixInfo(char *pData){
-	*(pData+0) = VSCP_DM_SIZE;
-        *(pData+1) = VSCP_REG_DM_OFFSET;
-        *(pData+2) = (char)((VSCP_REG_DM_PAGE >> 8 ) & 0xFF);
-        *(pData+3) = (char)(VSCP_REG_DM_PAGE & 0xFF);
-        *(pData+4) = (char)((VSCP_REG_DM_PAGE >> 8 ) & 0xFF);
-        *(pData+5) = (char)(VSCP_REG_DM_PAGE & 0xFF);
+    *(pData+0) = VSCP_DM_SIZE;
+    *(pData+1) = VSCP_REG_DM_OFFSET;
+    *(pData+2) = (char)((VSCP_REG_DM_PAGE >> 8 ) & 0xFF);
+    *(pData+3) = (char)(VSCP_REG_DM_PAGE & 0xFF);
+    *(pData+4) = (char)((VSCP_REG_DM_PAGE >> 8 ) & 0xFF);
+    *(pData+5) = (char)(VSCP_REG_DM_PAGE & 0xFF);
 }
 
-/*!
-        Get embedded MDF info
-        If available this routine sends an embedded MDF file
-        in several events. See specification CLASS1.PROTOCOL
-        Type=35/36
- */
-void vscp_getEmbeddedMdfInfo(void){}
 
 /*!
         Go bootloader mode
@@ -353,9 +266,52 @@ void vscp_getEmbeddedMdfInfo(void){}
         to the selected protocol.
  */
 void vscp_goBootloaderMode( uint8_t algorithm){
-	eeprom_write( VSCP_EEPROM_BOOTLOADER_FLAG, VSCP_BOOT_FLAG );
-	asm("reset");
+    if (algorithm!=APP_BOOTLOADER) return;
+    eeprom_write( VSCP_EEPROM_BOOTLOADER_FLAG, VSCP_BOOT_FLAG );
+    asm("reset");
 }
 
-uint8_t vscp_getZone(void){ return eeprom_read(VSCP_EEPROM_ZONE);}
+uint8_t vscp_getZone(void){ return vscp_zone;}
 uint8_t vscp_getSubzone(void){ return 0;}
+/*!
+        Write control byte permanent storage
+ */
+#ident("ControlByte is not used in this ")
+void vscp_setControlByte(uint8_t ctrl){return;}
+/*!
+        Fetch nickname from permanent storage
+        @return read nickname.
+ */
+uint8_t vscp_readNicknamePermanent(void){ return eeprom_read(VSCP_EEPROM_NICKNAME); }
+void vscp_writeNicknamePermanent(uint8_t nickname){ eeprom_write(VSCP_EEPROM_NICKNAME, nickname); }
+/*!
+        Fetch segment CRC from permanent storage
+ */
+uint8_t vscp_getSegmentCRC(void){ return eeprom_read(VSCP_EEPROM_SEGMENT_CRC); }
+void vscp_setSegmentCRC(uint8_t crc){ eeprom_write(VSCP_EEPROM_SEGMENT_CRC, crc); }
+/*!
+        Get URL from device from permanent storage
+        index 0-15
+ */
+uint8_t vscp_getMDF_URL(uint8_t idx){ return mdfLink[idx];}
+uint8_t vscp_getGUID(uint8_t idx){
+    if (idx<7) // FF FF FF FF FF FF FF FC xx xx xx xx xx xx xx xx
+        return 0xFF;
+    else if (idx==7)
+        return 0xFC;
+    else if (idx<16)
+        return GuID_LSB[idx-8];
+    else
+        return 0;
+}
+#ident("UserID is not handled in this project")
+uint8_t vscp_getUserID(uint8_t idx){ return 0;}
+void vscp_setUserID(uint8_t idx, uint8_t data){}
+#ident("Manufacturer ID is not used in this project")
+uint8_t vscp_getManufacturerId(uint8_t idx){ return 0; }
+uint32_t vscp_getFamilyCode(void){return DEVICE_CODE;}
+uint32_t vscp_getFamilyType(void){return DEVICE_TYPE;}
+uint8_t vscp_getBootLoaderAlgorithm(void){ return APP_BOOTLOADER;}
+uint8_t vscp_getMajorVersion(void){ return APP_VARIANT;}
+uint8_t vscp_getMinorVersion(void){ return APP_VERSION;}
+uint8_t vscp_getSubMinorVersion(void){ return APP_SUB_VERSION;}

@@ -47,17 +47,16 @@
 
 #include <driver.h>
 
-const uint8_t firmwareVersion[3] = {0,0,1};
-const uint8_t GuID[16] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC,
-                          0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00};
 
-const uint8_t deviceFamilyCode=0x00;
-const uint8_t deviceFamilyType=0x00;
+
+
+
+
 
 void _startup (void);
 extern timeBasedEventStruct timeEvent, timeOverride;
 
-const char mdfLink[] = "vscp.salvomusumeci.com/mdf/augusto.xml";
+const char mdfLink[32] = "vscp.salvomusumeci.com/aug.xml";
 
 
 void interrupt low_priority isr_low( void ){

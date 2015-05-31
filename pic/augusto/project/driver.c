@@ -265,15 +265,15 @@ void TMR0_setup(){
  * Allocation is dynamic and it depends on PIN_OUT_SIZE and PIN_IN_SIZE
  *
  * Rules used to maps the registers are:
- * R- FROM                            0 TO                  PIN_IN_SIZE --> Status of input (according to reversedLogic)
- * RW FROM                  PIN_IN_SIZE TO                2*PIN_IN_SIZE --> Input Status byte
- * RW FROM                2*PIN_IN_SIZE TO                3*PIN_IN_SIZE --> Zone for input
- * RW FROM                3*PIN_IN_SIZE TO                4*PIN_IN_SIZE --> Subzone for input
- * RW FROM                4*PIN_IN_SIZE TO   4*PIN_IN_SIZE+PIN_OUT_SIZE --> Status of output (according to reversedLogic)
- * RW FROM 4*PIN_IN_SIZE+  PIN_OUT_SIZE TO 4*PIN_IN_SIZE+2*PIN_OUT_SIZE --> Output Status byte
- * RW FROM 4*PIN_IN_SIZE+2*PIN_OUT_SIZE TO 4*PIN_IN_SIZE+3*PIN_OUT_SIZE --> Subzone for Output
+ * R- FROM                            0 TO                  PIN_IN_SIZE -1 --> Status of input (according to reversedLogic)
+ * RW FROM                  PIN_IN_SIZE TO                2*PIN_IN_SIZE -1 --> Input Status byte
+ * RW FROM                2*PIN_IN_SIZE TO                3*PIN_IN_SIZE -1 --> Zone for input
+ * RW FROM                3*PIN_IN_SIZE TO                4*PIN_IN_SIZE -1 --> Subzone for input
+ * RW FROM                4*PIN_IN_SIZE TO   4*PIN_IN_SIZE+PIN_OUT_SIZE -1 --> Status of output (according to reversedLogic)
+ * RW FROM 4*PIN_IN_SIZE+  PIN_OUT_SIZE TO 4*PIN_IN_SIZE+2*PIN_OUT_SIZE -1 --> Output Status byte
+ * RW FROM 4*PIN_IN_SIZE+2*PIN_OUT_SIZE TO 4*PIN_IN_SIZE+3*PIN_OUT_SIZE -1 --> Subzone for Output
  *
- * 0x7F save RAM in EEPROM (is 1 is written) --> should used for all modules
+ * 0x7F save RAM in EEPROM (when 1 is written) --> should used for all modules
  */
 uint8_t hardware_readRegister(uint8_t address){
     if (address<PIN_IN_SIZE) return hardware_input[address].currentStatus;
@@ -298,12 +298,14 @@ void hardware_writeRegister(uint8_t address, uint8_t value){
     else if (address<(4*PIN_IN_SIZE+3*PIN_OUT_SIZE)) hardware_subzoneForOutput[address-4*PIN_IN_SIZE-2*PIN_OUT_SIZE] = value;
 }
 
-/* EEPROM MAP
- * this part of code is used to save information in EEPROM
+/*  EEPROM LAYOUT
  *
- * OFFSET   LENGTH          DESCRIPTION
- *  0x00    3*PIN_IN_SIZE   Structure + zone + subzone
- *  cont    2*PIN_OUT_SIZE  Structure + subzone
+ *  Config input: 1byte x PIN_IN_SIZE
+ *  Zone for input: 1 byte x PIN_IN_SIZE
+ *  Subzone for input: 1byte x PIN_IN_SIZE
+ *  Config output: 1byte x PIN_OUT_SIZE
+ *  Subzone for output: 1byte x PIN_OUT_SIZE
+ *
  */
 void hardware_saveEEPROM(uint16_t eeprom_start_sector){
     for (uint8_t i=0; i<PIN_IN_SIZE; i++){

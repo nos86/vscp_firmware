@@ -23,16 +23,6 @@
 extern "C" {
 #endif
 
-/*  EEPROM LAYOUT
- *
- *  Config input: 1byte x PIN_IN_SIZE
- *  Zone for input: 1 byte x PIN_IN_SIZE
- *  Subzone for input: 1byte x PIN_IN_SIZE
- *  Config output: 1byte x PIN_OUT_SIZE
- *  Subzone for output: 1byte x PIN_OUT_SIZE
- *
- */
-
 #define PIN_OUT_SIZE 8
 #define PIN_IN_SIZE 8
 #define VSCP_BOARD_EEPROM_START 0x08

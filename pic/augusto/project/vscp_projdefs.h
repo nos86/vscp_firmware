@@ -26,12 +26,18 @@
  * ******************************************************************************
 */
 
+#include <xc.h>
 
 #define _XTAL_FREQ 32000000
 
-#define APP_MAJOR_VERSION 0
-#define APP_MINOR_VERSION 1
+#define APP_VARIANT       1
+#define APP_VERSION       1
 #define APP_SUB_VERSION   0
+
+#define DEVICE_CODE 0x00000001
+#define DEVICE_TYPE 0x00000001
+
+#define APP_BOOTLOADER VSCP_BOOTLOADER_NONE
 
 #define VSCP_BTN_DEBOUNCE   20 //Time-base: 100mS
 
