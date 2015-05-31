@@ -36,11 +36,13 @@
 
 #define DEVICE_CODE 0x00000001
 #define DEVICE_TYPE 0x00000001
+#define APP_EEPROM_SIZE 0xFF
 
 #define APP_BOOTLOADER VSCP_BOOTLOADER_NONE
+#define APP_REG_PAGES 1
 
-#define VSCP_BTN_DEBOUNCE   20 //Time-base: 100mS
 
-#define VSCP_DM_SIZE 8  //Size of Decision Matrix
+
+#define VSCP_DM_COUNT 8  //Number of Decision Matrix row
 #define VSCP_REG_DM_OFFSET  0x00
 #define VSCP_REG_DM_PAGE    0x0001

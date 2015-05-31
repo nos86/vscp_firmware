@@ -11,12 +11,16 @@
 #include <ECANPoll.h>
 
 extern const char mdfLink[];
+uint16_t vscp_registerPage = 0;
 
 const uint8_t *GuID_LSB = ( uint8_t * ) 0x200000;
 
 uint8_t vscp_zone;
 
 struct _dmrow decisionMatrix[VSCP_DM_SIZE];
+
+void vscp_loadDecisionMatrixFromEEPROM();
+
 
 /* Main flow chart */
 void vscp_freeRunning(){
@@ -102,7 +106,11 @@ void doDM( ){
     } // for each row
 }
 
-void loadDecisionMatrixFromEEPROM(){
+void vscp_loadAllFromEEPROM(){
+    vscp_zone = eeprom_read(VSCP_EEPROM_ZONE);
+    vscp_loadDecisionMatrixFromEEPROM();
+}
+void vscp_loadDecisionMatrixFromEEPROM(){
     for (char i=0; i<VSCP_DM_SIZE; i++){
         decisionMatrix[i].oaddr = eeprom_read(VSCP_DM_EEPROM_START_LOC + 8*i + 0);
         decisionMatrix[i].flags = eeprom_read(VSCP_DM_EEPROM_START_LOC + 8*i + 1);
@@ -114,7 +122,7 @@ void loadDecisionMatrixFromEEPROM(){
         decisionMatrix[i].action_param = eeprom_read(VSCP_DM_EEPROM_START_LOC + 8*i + 7);
     }
 }
-void saveDecisionMatrixToEEPROM(){
+void vscp_saveDecisionMatrixToEEPROM(){
     for (char i=0; i<VSCP_DM_SIZE; i++){
          eeprom_write(VSCP_DM_EEPROM_START_LOC + 8*i + 0, decisionMatrix[i].oaddr);
          eeprom_write(VSCP_DM_EEPROM_START_LOC + 8*i + 1, decisionMatrix[i].flags);
@@ -125,15 +133,6 @@ void saveDecisionMatrixToEEPROM(){
          eeprom_write(VSCP_DM_EEPROM_START_LOC + 8*i + 6, decisionMatrix[i].action);
          eeprom_write(VSCP_DM_EEPROM_START_LOC + 8*i + 7, decisionMatrix[i].action_param);
     }
-}
-
-void init_augusto_ram( void ){
-}
-
-void init_augusto_eeprom(){
-    eeprom_write(VSCP_EEPROM_ZONE, 0);
-    for (char i=0; i<VSCP_DM_SIZE*8; i++) //Re-init DM
-         eeprom_write(VSCP_DM_EEPROM_START_LOC + i, 0);
 }
 
 int8_t sendVSCPFrame( uint16_t vscpclass, uint8_t vscptype, uint8_t nodeid,
@@ -199,45 +198,7 @@ void sendDMatrixInfo( void ){
 //////////////////////////////////////////////////////////////////////////////
 
 
-void vscp_restoreDefaults(void){
-    //TODO EEPROM REINIT
-}
-
-
-
-
-
-
-uint8_t vscp_getBufferSize(void){ return 8;}
-
-/*!
-        Get number of register pages used by app.
- */
-uint8_t vscp_getRegisterPagesUsed(void){ return 0;}
-
-/*!
-        Get page select bytes
-                idx=0 - byte 0 MSB
-                idx=1 - byte 1 LSB
- */
-uint8_t vscp_getPageSelect(uint8_t idx){ return 0;}
-void vscp_setPageSelect(uint8_t idx, uint8_t data){}
-
-/*!
-        Read application register (lower part)
-        @param reg Register to read (<0x80)
-        @return Register content or 0x00 for non valid register
- */
-uint8_t vscp_readAppReg(uint8_t reg){ return 0;}
-
-/*!
-        Write application register (lower part)
-        @param reg Register to read (<0x80)
-        @param value Value to write to register.
-        @return Register content or 0xff for non valid register
- */
-uint8_t vscp_writeAppReg(uint8_t reg, uint8_t value){ return 0;}
-
+void vscp_getMatrixInfo(char *pData){
 /*!
         Get DM matrix info
         The output message data structure should be filled with
@@ -250,8 +211,7 @@ uint8_t vscp_writeAppReg(uint8_t reg, uint8_t value){ return 0;}
         byte 5 - End page LSB
         byte 6 - Level II size of DM row (Just for Level II nodes).
  */
-void vscp_getMatrixInfo(char *pData){
-    *(pData+0) = VSCP_DM_SIZE;
+    *(pData+0) = VSCP_DM_COUNT;
     *(pData+1) = VSCP_REG_DM_OFFSET;
     *(pData+2) = (char)((VSCP_REG_DM_PAGE >> 8 ) & 0xFF);
     *(pData+3) = (char)(VSCP_REG_DM_PAGE & 0xFF);
@@ -260,12 +220,12 @@ void vscp_getMatrixInfo(char *pData){
 }
 
 
+void vscp_goBootloaderMode( uint8_t algorithm){
 /*!
         Go bootloader mode
         This routine force the system into bootloader mode according
         to the selected protocol.
  */
-void vscp_goBootloaderMode( uint8_t algorithm){
     if (algorithm!=APP_BOOTLOADER) return;
     eeprom_write( VSCP_EEPROM_BOOTLOADER_FLAG, VSCP_BOOT_FLAG );
     asm("reset");
@@ -315,3 +275,27 @@ uint8_t vscp_getBootLoaderAlgorithm(void){ return APP_BOOTLOADER;}
 uint8_t vscp_getMajorVersion(void){ return APP_VARIANT;}
 uint8_t vscp_getMinorVersion(void){ return APP_VERSION;}
 uint8_t vscp_getSubMinorVersion(void){ return APP_SUB_VERSION;}
+/*!
+        Get number of register pages used by app.
+ */
+uint8_t vscp_getRegisterPagesUsed(void){ return APP_REG_PAGES;}
+uint8_t vscp_getPageSelect(uint8_t idx){
+/*!
+        Get page select bytes
+                idx=0 - byte 0 MSB
+                idx=1 - byte 1 LSB
+ */
+    if (idx==0)
+        return (uint8_t)((vscp_registerPage>>8)&0xFF);
+    else
+        return (uint8_t)(vscp_registerPage&0xFF);
+}
+void vscp_setPageSelect(uint8_t idx, uint8_t data){
+    uint16_t temp = vscp_registerPage;
+    if (idx==0)
+        temp = temp & 0x00FF + (data<<8);
+    else
+        temp = temp & 0xFF00 + data;
+    if(temp<=APP_REG_PAGES) vscp_registerPage = temp;
+}
+uint8_t vscp_getBufferSize(void){ return 8; } //Level1 size

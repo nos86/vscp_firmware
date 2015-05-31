@@ -74,8 +74,12 @@ void init_app_eeprom(void){
 
 }
 
+void vscp_restoreDefaults(void){ //VSCP Routine
+    //TODO EEPROM REINIT
+}
+
 void init_app_ram(void){
-    init_augusto_ram();
+    vscp_loadAllFromEEPROM();
 }
 
 //***************************************************************************
@@ -121,3 +125,18 @@ void main(){
 void doApplicationDM(int DecisionMatrixIndex){
 
 }
+
+/*!
+        Read application register (lower part)
+        @param reg Register to read (<0x80)
+        @return Register content or 0x00 for non valid register
+ */
+uint8_t vscp_readAppReg(uint8_t reg){ return 0x00;}
+
+/*!
+        Write application register (lower part)
+        @param reg Register to read (<0x80)
+        @param value Value to write to register.
+        @return Register content or 0xff for non valid register
+ */
+uint8_t vscp_writeAppReg(uint8_t reg, uint8_t value){ return 0xFF;}

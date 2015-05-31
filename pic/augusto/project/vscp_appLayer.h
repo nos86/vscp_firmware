@@ -9,6 +9,7 @@ extern "C" {
 #endif
 
 #define VSCP_TX_MAX_TRIAL 3 //Max Trial before abort (based on 1mS)
+#define VSCP_BTN_DEBOUNCE   20 //Time-base: 100mS
 
 #define VSCP_EEPROM_BOOTLOADER_FLAG	0x00    // Reserved for bootloader
 #define VSCP_EEPROM_NICKNAME            0x01	// Persistant nickname id storage
@@ -16,17 +17,18 @@ extern "C" {
 #define VSCP_EEPROM_ZONE                0x03    // Persistant vscp zone
 
 
-#define VSCP_DM_EEPROM_START_LOC 0x100 //TODO Fix it
-#define VSCP_EEPROM_USERID 0x20
-#define VSCP_EEPROM_MANUFACTUR_ID 0x20
 
+#define VSCP_DM_EEPROM_STAR_LOC APP_EEPROM_SIZE - 8*VSCP_DM_COUNT
+#if VSCP_DM_EEPROM_START_LOC < 0 | VSCP_DM_COUNT > 256
+#error("Decision matrix is too big")
+#endif
     
 //EEPROM-mirrored variables
 uint8_t vscp_zone;
 extern const uint8_t GuID[16];
 
 /* Decision Matrix */
-extern struct _dmrow decisionMatrix[VSCP_DM_SIZE];
+extern struct _dmrow decisionMatrix[VSCP_DM_COUNT];
 extern void doApplicationDM(int DecisionMatrixIndex);
 
 void init_app_eeprom();
