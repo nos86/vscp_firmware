@@ -33,30 +33,37 @@ extern "C" {
  *
  */
 
-#define OFFSET_PORT_TO_TRIS 0x12
-#define OFFSET_LAT_TO_TRIS 0x09
 #define PIN_OUT_SIZE 8
 #define PIN_IN_SIZE 8
-#define HARDWARE_DEBOUNCE_THRESOLD 10
-
 #define VSCP_BOARD_EEPROM_LENGTH 3*PIN_IN_SIZE + 2*PIN_OUT_SIZE
+
+#define HARDWARE_SHORT_DEBOUNCE_THRESOLD 10
+#define HARDWARE_LONG_DEBOUNCE_THRESOLD 100
+
+
+#define OFFSET_PORT_TO_TRIS 0x12
+#define OFFSET_LAT_TO_TRIS  0x09
 #define TMR0H_INIT 0x63
 #define TMR0L_INIT 0xC0
 
 
-#if (HARDWARE_DEBOUNCE_THRESOLD>15)
-#error("Thresold is too big")
+
+
+#if (HARDWARE_LONG_DEBOUNCE_THRESOLD > 255)
+    #error("Thresold is too big")
+#elif(HARDWARE_LONG_DEBOUNCE_THRESOLD <= HARDWARE_SHORT_DEBOUNCE_THRESOLD)
+    #error("Short Threshold must be smaller than Long Threshold")
 #endif
 
 //VSCP button and led definition
-#define vscp_ledPin  PORTAbits.RA2
-#define vscp_ledTris TRISAbits.TRISA2
-#define vscp_btnPin  PORTBbits.RB5
-#define vscp_btnTris TRISBbits.TRISB5
-#define greenLed_pin PORTCbits.RC7
+#define vscp_ledPin   PORTAbits.RA2
+#define vscp_ledTris  TRISAbits.TRISA2
+#define vscp_btnPin   PORTBbits.RB5
+#define vscp_btnTris  TRISBbits.TRISB5
+#define greenLed_pin  PORTCbits.RC7
 #define greenLed_tris TRISCbits.TRISC7
-#define redLed_pin   PORTCbits.RC6
-#define redLed_tris  TRISCbits.TRISC6
+#define redLed_pin    PORTCbits.RC6
+#define redLed_tris   TRISCbits.TRISC6
 
 #define PICKIT_CH1 PORTBbits.RB7
 #define PICKIT_CH2 PORTBbits.RB6
@@ -94,7 +101,7 @@ struct vscpBoard_inputVar{
     unsigned offEvent: 1;
     unsigned onEvent: 1;
     unsigned buttonEvent: 1;
-    unsigned debounce: 4; //For debounce time
+    unsigned debounce: 8; //For debounce time
 };
 
 /* DEFINITION OF STATUS / CONFIGURATION BYTE OF OUTPUT PIN

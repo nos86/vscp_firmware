@@ -36,7 +36,7 @@
 
 #include <xc.h>
 #include "main.h"
-
+#include "eeprom_map.h"
 #include <eeprom.h>
 #include <vscp_firmware.h>
 #include <vscp_class.h>	
@@ -51,7 +51,6 @@ const uint8_t GuID[16] = {0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFC,
 
 const uint8_t deviceFamilyCode=0x00;
 const uint8_t deviceFamilyType=0x00;
-
 
 void _startup (void);
 extern timeBasedEventStruct timeEvent, timeOverride;
@@ -167,28 +166,28 @@ void main(){
             vscp_omsg.vscp_type = 0x01;
             for (uint8_t i=0; i<8; i++)
                 vscp_omsg.data[i] = hardware_saveStructForInput(hardware_input[i]);
-            if(!vscp_sendEvent()) redLed_pin = 0;
+            //if(!vscp_sendEvent()) redLed_pin = 0;
 
             vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
             vscp_omsg.vscp_type = 0x02;
             for (uint8_t i=0; i<8; i++)
                 vscp_omsg.data[i] = hardware_saveStructForOutput(hardware_output[i]);
             // send the event
-            if(!vscp_sendEvent()) redLed_pin = 0;
+            //if(!vscp_sendEvent()) redLed_pin = 0;
 
             vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
             vscp_omsg.vscp_type = 0x03;
             for (uint8_t i=0; i<8; i++)
                 vscp_omsg.data[i] = hardware_subzoneForInput[i];
             // send the event
-            if(!vscp_sendEvent()) redLed_pin = 0;
+            //if(!vscp_sendEvent()) redLed_pin = 0;
 
             vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
             vscp_omsg.vscp_type = 0x04;
             for (uint8_t i=0; i<8; i++)
                 vscp_omsg.data[i] = hardware_subzoneForOutput[i];
             // send the event
-            if(!vscp_sendEvent()) redLed_pin = 0;
+            //if(!vscp_sendEvent()) redLed_pin = 0;
 
             for (uint8_t i=0; i<8; i++)
                 setOutput(i,hardware_input[i].currentStatus);

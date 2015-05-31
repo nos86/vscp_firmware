@@ -21,7 +21,6 @@ timeBasedEventStruct timeEvent, timeOverride;
 
 void TMR0_setup();//Internal usage
 
-
 void hardware_reinit(){
     for (uint8_t i = 0; i<PIN_IN_SIZE; i++){
         hardware_input[i].buttonEvent = 1;
@@ -39,46 +38,77 @@ void hardware_reinit(){
         hardware_output[i].onEvent = 1;
         hardware_output[i].reversedLogic = 0;
         hardware_subzoneForOutput[i] = i+1;
+        //TODO: apply status to physical pin without can information
+    }
+}
+
+void hardware_sendInputInformation(int8_t idx, uint8_t type){
+    vscp_omsg.vscp_class = VSCP_CLASS1_INFORMATION;
+    vscp_omsg.flags = VSCP_VALID_MSG + 3;
+    vscp_omsg.priority = 3;
+    vscp_omsg.data[0] = 0;
+    vscp_omsg.data[1] = hardware_zoneForInput[idx];
+    vscp_omsg.data[2] = hardware_subzoneForInput[idx];
+    switch(type){
+        case VSCP_TYPE_INFORMATION_ON:
+            if (hardware_input[idx].onEvent){
+                if (hardware_input[idx].doorLogic)
+                    vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OPENED;
+                else
+                    vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_ON;
+            }
+            break;
+        case VSCP_TYPE_INFORMATION_OFF:
+            if (hardware_input[idx].offEvent){
+                if (hardware_input[idx].doorLogic)
+                    vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_CLOSED;
+                else
+                    vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OFF;
+            }
+            break;
+        case VSCP_TYPE_INFORMATION_BUTTON:
+            if(hardware_input[idx].buttonEvent){
+                vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_BUTTON;
+                if(hardware_input[idx].debounce>=HARDWARE_LONG_DEBOUNCE_THRESOLD)
+                   vscp_omsg.data[0] = 2;
+                vscp_sendEvent();
+            }
+
     }
 }
 
 void hardware_10mS(){
     uint8_t newState;
     for (uint8_t i = 0; i < PIN_IN_SIZE; i++){
-        //Electrical info is working in negate logic
+        //Electrical signal is working in negate logic
         newState = (((*(IN_PIN_PORT[i]) & IN_PIN_NUM[i]) == 0)^ hardware_input[i].reversedLogic );
-        if (newState != hardware_input[i].currentStatus){
-            hardware_input[i].debounce++;
-            if (hardware_input[i].debounce >= HARDWARE_DEBOUNCE_THRESOLD){
-                hardware_input[i].currentStatus = newState;
-                vscp_omsg.vscp_class = VSCP_CLASS1_INFORMATION;
-                vscp_omsg.priority = 3;
-                vscp_omsg.data[1] = hardware_zoneForInput[i];
-                vscp_omsg.data[2] = hardware_subzoneForInput[i];
-                if (hardware_input[i].buttonEvent){
-                    vscp_omsg.flags = VSCP_VALID_MSG + 3;
-                    vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_BUTTON;
-                    vscp_omsg.data[0]= newState;
-                    vscp_sendEvent();
-                    redLed_pin = !redLed_pin;
+        
+        if (hardware_input[i].currentStatus == 0){//OFF or ON-Debouncing State
+            if(newState == 1){
+                if(hardware_input[i].debounce++ == HARDWARE_SHORT_DEBOUNCE_THRESOLD){
+                    hardware_sendInputInformation(i, VSCP_TYPE_INFORMATION_ON);//ON EVENT
+                    hardware_input[i].currentStatus=1;
                 }
-                if (hardware_input[i].onEvent & (newState == 1)){
-                    vscp_omsg.flags = VSCP_VALID_MSG + 3;
-                    vscp_omsg.data[0]= 0;
-                    if (hardware_input[i].doorLogic == 1) vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OPENED;
-                    else vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_ON;
-                    vscp_sendEvent();
+            }else
+                hardware_input[i].debounce = 0; //Reset debounce
+            
+        }else{ //ON or Off-Deboncing or LongON
+            if(hardware_input[i].debounce>HARDWARE_SHORT_DEBOUNCE_THRESOLD){ //ON
+                if(newState == 0){
+                    hardware_sendInputInformation(i, VSCP_TYPE_INFORMATION_BUTTON);//SHORT EVENT
+                    hardware_input[i].debounce=0;
+                }else if(hardware_input[i].debounce++ == HARDWARE_LONG_DEBOUNCE_THRESOLD){
+                    hardware_sendInputInformation(i, VSCP_TYPE_INFORMATION_BUTTON);//LONG EVENT
+                    hardware_input[i].debounce=0;
                 }
-                if (hardware_input[i].offEvent & (newState == 0)){
-                    vscp_omsg.flags = VSCP_VALID_MSG + 3;
-                    vscp_omsg.data[0]= 0;
-                    if (hardware_input[i].doorLogic == 1) vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_CLOSED;
-                    else vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OFF;
-                    vscp_sendEvent();
+            }else if(newState==1){
+                hardware_input[i].debounce = 0; //Reset debounce
+            }else{
+                if(hardware_input[i].debounce++ == HARDWARE_SHORT_DEBOUNCE_THRESOLD){
+                    hardware_sendInputInformation(i, VSCP_TYPE_INFORMATION_OFF);//OFF EVENT
+                    hardware_input[i].currentStatus=0;
                 }
             }
-        }else{
-            hardware_input[i].debounce = 0;
         }
     }
 }

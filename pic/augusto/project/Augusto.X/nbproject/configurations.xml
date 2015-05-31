@@ -9,6 +9,9 @@
       <itemPath>../vscp_appLayer.h</itemPath>
       <itemPath>../vscp_compiler.h</itemPath>
       <itemPath>../vscp_projdefs.h</itemPath>
+      <itemPath>../ECANPoll.h</itemPath>
+      <itemPath>../ECANPoll.def</itemPath>
+      <itemPath>../eeprom_map.h</itemPath>
     </logicalFolder>
     <logicalFolder name="LinkerScript"
                    displayName="Linker Files"
@@ -21,8 +24,6 @@
       <itemPath>../main.c</itemPath>
       <itemPath>../vscp_appLayer.c</itemPath>
       <itemPath>../ECANPoll.c</itemPath>
-      <itemPath>../ECANPoll.def</itemPath>
-      <itemPath>../ECANPoll.h</itemPath>
     </logicalFolder>
     <logicalFolder name="f1" displayName="VSCP" projectFiles="true">
       <itemPath>../../../common/eeprom.c</itemPath>
@@ -152,6 +153,7 @@
         <property key="ToolFirmwareFilePath"
                   value="Press to browse for a specific firmware version"/>
         <property key="ToolFirmwareOption.UseLatestFirmware" value="true"/>
+        <property key="firmware.download.all" value="false"/>
         <property key="hwtoolclock.frcindebug" value="false"/>
         <property key="memories.aux" value="false"/>
         <property key="memories.bootflash" value="true"/>

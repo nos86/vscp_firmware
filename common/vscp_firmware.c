@@ -176,7 +176,7 @@ int8_t vscp_check_pstorage(void)
     vscp_writeNicknamePermanent(0xff);
 
     // No segment CRC yet.
-    vscp_setSegmentCRC(0x00);
+    vscp_setSegmentCRC(0x40);
 
     // Initial startup
     // write allowed
