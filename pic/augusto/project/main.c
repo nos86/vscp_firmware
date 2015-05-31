@@ -35,8 +35,10 @@
 */
 
 #include <xc.h>
+#include "eeprom_map.h" //Once a project
+
 #include "main.h"
-#include "eeprom_map.h"
+
 #include <eeprom.h>
 #include <vscp_firmware.h>
 #include <vscp_class.h>	
@@ -55,65 +57,11 @@ const uint8_t deviceFamilyType=0x00;
 void _startup (void);
 extern timeBasedEventStruct timeEvent, timeOverride;
 
-const char mdfLink[] = "www.salvomusumeci.com/jarvis/augusto.xml";
+const char mdfLink[] = "vscp.salvomusumeci.com/mdf/augusto.xml";
 
 
 void interrupt low_priority isr_low( void ){
-/*	BYTE temp;
-	unsigned short tval0, tval1;	
 	
-	// Clock
-	if ( PIR1bits.TMR2IF ) {	// If a Timer2 Interrupt, Then...
-		
-		vscp_timer++;
-		measurement_clock++;
-		clock_10ms++;
-
-		// Check for init button
-		if ( INIT_BUTTON ) {
-			vscp_initbtncnt = 0;
-		}
-		else {
-			// Active
-			vscp_initbtncnt++;
-		}
-
-		// Status LED
-		vscp_statuscnt++;
-		if ( ( VSCP_LED_BLINK1 == vscp_initledfunc ) && ( vscp_statuscnt > 100 ) ) {
-
-			if ( INIT_LED ) {
-				INIT_LED = 0; 
-			}
-			else {
-				INIT_LED = 1; 
-			}	
-
-			vscp_statuscnt = 0;
-
-		}
-		else if ( VSCP_LED_ON == vscp_initledfunc ) {
-			INIT_LED = 1;	
-			vscp_statuscnt = 0;	
-		}
-		else if ( VSCP_LED_OFF == vscp_initledfunc ) {
-			INIT_LED = 0; 
-			vscp_statuscnt = 0;
-		}
-
-		PIR1bits.TMR2IF = 0;     // Clear Timer0 Interrupt Flag
-
-	}
-
-/*	
-	// CAN error
-	if ( PIR3bits.ERRIF ) {
-		
-		temp = COMSTAT;
-		PIR3 = 0;
-		
-	}
-*/	
 }
 
 void interrupt isr_high(){
@@ -124,15 +72,12 @@ void interrupt isr_high(){
 
 
 void init_app_eeprom(void){
-    //sinit_augusto_eeprom();
-//  WE_initEEPROM(&WE_data[1], WE_DATA_0);
-//  vscp_setSegmentCRC(WE_DATA_0 & 0xFF);
+
 }
 
 void init_app_ram(void){
     init_augusto_ram();
 }
-//TODO: se mando più di 3 messaggi consecutivi, li perdo
 
 //***************************************************************************
 // Main() - Main Routine
@@ -159,36 +104,6 @@ void main(){
             vscp_100mS_Running();
             vscp_ledActivity();
 
-            
-            vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
-            vscp_omsg.priority = VSCP_PRIORITY_LOW;
-            vscp_omsg.vscp_class = VSCP_CLASS1_LAB;
-            vscp_omsg.vscp_type = 0x01;
-            for (uint8_t i=0; i<8; i++)
-                vscp_omsg.data[i] = hardware_saveStructForInput(hardware_input[i]);
-            //if(!vscp_sendEvent()) redLed_pin = 0;
-
-            vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
-            vscp_omsg.vscp_type = 0x02;
-            for (uint8_t i=0; i<8; i++)
-                vscp_omsg.data[i] = hardware_saveStructForOutput(hardware_output[i]);
-            // send the event
-            //if(!vscp_sendEvent()) redLed_pin = 0;
-
-            vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
-            vscp_omsg.vscp_type = 0x03;
-            for (uint8_t i=0; i<8; i++)
-                vscp_omsg.data[i] = hardware_subzoneForInput[i];
-            // send the event
-            //if(!vscp_sendEvent()) redLed_pin = 0;
-
-            vscp_omsg.flags = VSCP_VALID_MSG + 8;// three data byte
-            vscp_omsg.vscp_type = 0x04;
-            for (uint8_t i=0; i<8; i++)
-                vscp_omsg.data[i] = hardware_subzoneForOutput[i];
-            // send the event
-            //if(!vscp_sendEvent()) redLed_pin = 0;
-
             for (uint8_t i=0; i<8; i++)
                 setOutput(i,hardware_input[i].currentStatus);
         }
@@ -205,7 +120,5 @@ void main(){
 }
 
 void doApplicationDM(int DecisionMatrixIndex){
-    //case VSCP_ACTION_WINDOW_ENGINE:
-    //                WE_getInputCode(&vscp_imsg, &WE_data[0]);
-    //                break;
+
 }

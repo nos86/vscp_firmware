@@ -20,27 +20,8 @@ uint8_t hardware_subzoneForOutput[PIN_OUT_SIZE];
 timeBasedEventStruct timeEvent, timeOverride;
 
 void TMR0_setup();//Internal usage
-
-void hardware_reinit(){
-    for (uint8_t i = 0; i<PIN_IN_SIZE; i++){
-        hardware_input[i].buttonEvent = 1;
-        hardware_input[i].doorLogic = 1;
-        hardware_input[i].offEvent = 1;
-        hardware_input[i].onEvent = 1;
-        hardware_input[i].reversedLogic = 0;
-        hardware_subzoneForInput[i] = i+1;
-        hardware_zoneForInput[i] = vscp_zone;
-        
-    }
-    for (uint8_t i=0; i<PIN_OUT_SIZE; i++){
-        hardware_output[i].currentStatus = 0;
-        hardware_output[i].offEvent = 1;
-        hardware_output[i].onEvent = 1;
-        hardware_output[i].reversedLogic = 0;
-        hardware_subzoneForOutput[i] = PIN_IN_SIZE+i+1;
-        //TODO: apply status to physical pin without can information
-    }
-}
+void hardware_loadEEPROM(uint16_t eeprom_start_sector);
+void hardware_saveEEPROM(uint16_t eeprom_start_sector);
 
 void hardware_sendInputInformation(int8_t idx, uint8_t type){
     vscp_omsg.vscp_class = VSCP_CLASS1_INFORMATION;
@@ -230,18 +211,25 @@ void hardware_setup(){
     redLed_pin = 1;
 
     // I/O configuration
-    for (char i=0; i<PIN_IN_SIZE; i++){
+    for (char i=0; i<PIN_IN_SIZE; i++)
         *(IN_PIN_PORT[i] + OFFSET_PORT_TO_TRIS) |= IN_PIN_NUM[i]; //offset is used to access to TRIS register
 
-    }
-    for (char i=0; i<PIN_OUT_SIZE; i++){
+    for (char i=0; i<PIN_OUT_SIZE; i++)
         *(OUT_PIN_PORT[i] + OFFSET_LAT_TO_TRIS) &= (0xFF ^ OUT_PIN_NUM[i]); //offset is used to access to TRIS register
-        setOutput(i, 1);
+    
+    hardware_loadEEPROM(VSCP_BOARD_EEPROM_START);
+    for (uint8_t i=0; i<PIN_OUT_SIZE; i++){
+        hardware_input[i].currentStatus = 0;
+        if(hardware_input[i].reversedLogic)
+            *(OUT_PIN_PORT[i]) &= (0xFF ^ OUT_PIN_NUM[i]);
+        else
+            *(OUT_PIN_PORT[i]) |= (2^1);
+
     }
+
 
     ECANInitialize();
     TMR0_setup();
-    hardware_reinit();
     ei(); 
 }
 void TMR0_setup(){
