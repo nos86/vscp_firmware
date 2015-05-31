@@ -37,15 +37,15 @@ void hardware_reinit(){
         hardware_output[i].offEvent = 1;
         hardware_output[i].onEvent = 1;
         hardware_output[i].reversedLogic = 0;
-        hardware_subzoneForOutput[i] = i+1;
+        hardware_subzoneForOutput[i] = PIN_IN_SIZE+i+1;
         //TODO: apply status to physical pin without can information
     }
 }
 
 void hardware_sendInputInformation(int8_t idx, uint8_t type){
     vscp_omsg.vscp_class = VSCP_CLASS1_INFORMATION;
-    vscp_omsg.flags = VSCP_VALID_MSG + 3;
     vscp_omsg.priority = 3;
+    vscp_omsg.flags = VSCP_VALID_MSG + 3;
     vscp_omsg.data[0] = 0;
     vscp_omsg.data[1] = hardware_zoneForInput[idx];
     vscp_omsg.data[2] = hardware_subzoneForInput[idx];
@@ -56,6 +56,7 @@ void hardware_sendInputInformation(int8_t idx, uint8_t type){
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OPENED;
                 else
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_ON;
+            vscp_sendEvent();
             }
             break;
         case VSCP_TYPE_INFORMATION_OFF:
@@ -64,6 +65,7 @@ void hardware_sendInputInformation(int8_t idx, uint8_t type){
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_CLOSED;
                 else
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OFF;
+            vscp_sendEvent();
             }
             break;
         case VSCP_TYPE_INFORMATION_BUTTON:
@@ -73,6 +75,7 @@ void hardware_sendInputInformation(int8_t idx, uint8_t type){
                    vscp_omsg.data[0] = 2;
                 vscp_sendEvent();
             }
+            break;
 
     }
 }
@@ -114,27 +117,28 @@ void hardware_10mS(){
 }
 void setOutput (unsigned char pin, unsigned char state){
     if (pin>PIN_OUT_SIZE) return;
+    state = state & 0x01;
     //Electrical info is working in negate logic
     if ((state == 0) ^ hardware_output[pin].reversedLogic)
         *(OUT_PIN_PORT[pin]) |= OUT_PIN_NUM[pin];
     else{
         *(OUT_PIN_PORT[pin]) &= (0xFF ^ OUT_PIN_NUM[pin]);
     }
-    if ((state&0x01) != hardware_output[pin].currentStatus){
+    if (state != hardware_output[pin].currentStatus){
         vscp_omsg.vscp_class = VSCP_CLASS1_INFORMATION;
         vscp_omsg.priority = 3;
         vscp_omsg.flags = VSCP_VALID_MSG + 3;
         vscp_omsg.data[0]= 0;
         vscp_omsg.data[1] = vscp_zone;
         vscp_omsg.data[2] = hardware_subzoneForOutput[pin];
-        if (hardware_output[pin].onEvent && (state&0x01)>0){
+        if (hardware_output[pin].onEvent & state){
             vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_ON;
             vscp_sendEvent();
-        }else if (hardware_output[pin].offEvent && (state&0x01)==0){
+        }else if (hardware_output[pin].offEvent & (state==0)){
             vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OFF;
             vscp_sendEvent();
         }
-        hardware_output[pin].currentStatus = state & 0x01;
+        hardware_output[pin].currentStatus = state;
     }
 
 }
