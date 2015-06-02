@@ -124,6 +124,8 @@ uint8_t hardware_saveStructForInput(struct vscpBoard_inputVar in);
 uint8_t hardware_saveStructForOutput(struct vscpBoard_outputVar out);
 void hardware_loadStructForOutput(struct vscpBoard_outputVar *out, uint8_t value);
 void hardware_loadStructForInput(struct vscpBoard_inputVar *in, uint8_t value);
+uint8_t hardware_writeRegister(uint8_t address, uint8_t value);
+uint8_t hardware_readRegister(uint8_t address);
 
 #ifdef	__cplusplus
 }

@@ -275,17 +275,28 @@ void TMR0_setup(){
  *
  * 0x7F save RAM in EEPROM (when 1 is written) --> should used for all modules
  */
+
+#if 4*PIN_IN_SIZE+3*PIN_OUT_SIZE > 126
+#error("No enough space for VSCP register mapping")
+#endif
+
 uint8_t hardware_readRegister(uint8_t address){
     if (address<PIN_IN_SIZE) return hardware_input[address].currentStatus;
     else if (address<2*PIN_IN_SIZE) return hardware_saveStructForInput(hardware_input[address-PIN_IN_SIZE]);
     else if (address<3*PIN_IN_SIZE) return hardware_zoneForInput[address-2*PIN_IN_SIZE];
     else if (address<4*PIN_IN_SIZE) return hardware_subzoneForInput[address-3*PIN_IN_SIZE];
-    else if (address<(4*PIN_IN_SIZE+PIN_OUT_SIZE)) return hardware_output[address-4*PIN_IN_SIZE].currentStatus;
+    else if (address<(4*PIN_IN_SIZE+PIN_OUT_SIZE))   return hardware_output[address-4*PIN_IN_SIZE].currentStatus;
     else if (address<(4*PIN_IN_SIZE+2*PIN_OUT_SIZE)) return hardware_saveStructForOutput(hardware_output[address-4*PIN_IN_SIZE-PIN_OUT_SIZE]);
     else if (address<(4*PIN_IN_SIZE+3*PIN_OUT_SIZE)) return hardware_subzoneForOutput[address-4*PIN_IN_SIZE-2*PIN_OUT_SIZE];
     else return 0;
 }
-void hardware_writeRegister(uint8_t address, uint8_t value){
+/*!
+        Write application register (lower part)
+        @param reg Register to read (<0x80)
+        @param value Value to write to register.
+        @return Register content or 0xff for non valid register
+ */
+uint8_t hardware_writeRegister(uint8_t address, uint8_t value){
     if (address<PIN_IN_SIZE); //Ignored because it's not possible to override an input
     else if (address<2*PIN_IN_SIZE) hardware_loadStructForInput(&(hardware_input[address-PIN_IN_SIZE]), value);
     else if (address<3*PIN_IN_SIZE) hardware_zoneForInput[address-2*PIN_IN_SIZE] = value;
@@ -296,6 +307,8 @@ void hardware_writeRegister(uint8_t address, uint8_t value){
         setOutput(address-4*PIN_IN_SIZE, value & 0x01);
     }
     else if (address<(4*PIN_IN_SIZE+3*PIN_OUT_SIZE)) hardware_subzoneForOutput[address-4*PIN_IN_SIZE-2*PIN_OUT_SIZE] = value;
+    else return 0xFF;
+    return value;
 }
 
 /*  EEPROM LAYOUT

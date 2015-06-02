@@ -54,28 +54,8 @@
  * 0003 - 0038     40   Augusto Driver
  *
  */
-
-#define NEXT                            0x07
-
-
-/* Register map
- * Page 0
- *
- */
-/*
-
-// The following can be stored in program ROM (recommended) or in EEPROM 
-
-#define VSCP_EEPROM_REG_GUID			0x11	// Start of GUID MSB	
-													// 		0x11 - 0x20				
-
-#define VSCP_EEPROM_REG_DEVICE_URL		0x21	// Start of Device URL storage
-													// 		0x21 - 0x40
-
-#define VSCP_EEPROM_END				0x41	// marks end of VSCP EEPROM usage
-													//   (next free position)
-
-*/
+#define VSCP_ACTION_NOP            0x00
+#define VSCP_ACTION_COMMAND_OUTPUT 0x01
 
 // Function Prototypes
 
@@ -89,8 +69,6 @@ void sendDMatrixInfo( void );
 void SendInformationEvent( unsigned char idx, unsigned char eventClass, unsigned char eventTypeId, unsigned char keyAction );
 
 void SendProbeAck (unsigned char buttontime);
-
-void doDM( void );
 
 void doActionOn( unsigned char dmflags, unsigned char arg );
 void doActionOff( unsigned char dmflags, unsigned char arg );

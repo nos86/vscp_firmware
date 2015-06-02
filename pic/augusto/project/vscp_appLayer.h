@@ -18,7 +18,7 @@ extern "C" {
 
 
 
-#define VSCP_DM_EEPROM_STAR_LOC APP_EEPROM_SIZE - 8*VSCP_DM_COUNT
+#define VSCP_DM_EEPROM_START_LOC APP_EEPROM_SIZE - 8*VSCP_DM_COUNT 
 #if VSCP_DM_EEPROM_START_LOC < 0 | VSCP_DM_COUNT > 256
 #error("Decision matrix is too big")
 #endif
@@ -29,7 +29,7 @@ extern const uint8_t GuID[16];
 
 /* Decision Matrix */
 extern struct _dmrow decisionMatrix[VSCP_DM_COUNT];
-extern void doApplicationDM(int DecisionMatrixIndex);
+extern void doApplicationDM(struct _dmrow row);
 
 void init_app_eeprom();
 void vscp_freeRunning();
@@ -41,6 +41,7 @@ void doDM();
 
 void init_augusto_ram( void );
 void init_augusto_eeprom();
+void vscp_loadAllFromEEPROM();
 
 #ifdef	__cplusplus
 }

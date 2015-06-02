@@ -17,7 +17,7 @@ const uint8_t *GuID_LSB = ( uint8_t * ) 0x200000;
 
 uint8_t vscp_zone;
 
-struct _dmrow decisionMatrix[VSCP_DM_SIZE];
+struct _dmrow decisionMatrix[VSCP_DM_COUNT];
 
 void vscp_loadDecisionMatrixFromEEPROM();
 
@@ -82,11 +82,10 @@ void doDM( ){
     unsigned char i;
     unsigned short class_filter;
     unsigned short class_mask;
-
     // Don't deal with the control functionality
     if ( VSCP_CLASS1_PROTOCOL == vscp_imsg.vscp_class ){ vscp_handleProtocolEvent(); return;}
-    for ( i=0; i<VSCP_DM_SIZE; i++ ) {
-        if (!(decisionMatrix[i].flags & VSCP_DM_FLAG_ENABLED) ) continue; // Is the DM row enabled?
+    for ( i=0; i<VSCP_DM_COUNT; i++ ) {
+        if ((decisionMatrix[i].flags & VSCP_DM_FLAG_ENABLED) == 0 ) continue; // Is the DM row enabled?
         if ( (decisionMatrix[i].flags & VSCP_DM_FLAG_CHECK_OADDR) && //Is the address checked?
             (vscp_imsg.oaddr != decisionMatrix[i].oaddr)) continue;
         if ( decisionMatrix[i].flags & VSCP_DM_FLAG_CHECK_ZONE  ) { // Check if zone should match and if so if it match
@@ -95,23 +94,14 @@ void doDM( ){
         class_filter = ( decisionMatrix[i].flags & VSCP_DM_FLAG_CLASS_FILTER )*256 + decisionMatrix[i].class_filter;
         class_mask = ( (decisionMatrix[i].flags & VSCP_DM_FLAG_CLASS_MASK) >0 )*256 + decisionMatrix[i].class_mask;
         if ( !((class_filter ^ vscp_imsg.vscp_class) & class_mask) &&
-             !( ( decisionMatrix[i].type_filter ^ vscp_imsg.vscp_type ) & decisionMatrix[i].type_mask )) {
-            switch ( decisionMatrix[i].action ) { // OK Trigger this action
-                
-                default:
-                    doApplicationDM(i);
-                    break;
-            } // case
-        } // Mask and Filter matched
+             !(( decisionMatrix[i].type_filter ^ vscp_imsg.vscp_type ) & decisionMatrix[i].type_mask )) 
+            doApplicationDM(decisionMatrix[i]);
     } // for each row
 }
 
 void vscp_loadAllFromEEPROM(){
     vscp_zone = eeprom_read(VSCP_EEPROM_ZONE);
-    vscp_loadDecisionMatrixFromEEPROM();
-}
-void vscp_loadDecisionMatrixFromEEPROM(){
-    for (char i=0; i<VSCP_DM_SIZE; i++){
+    for (char i=0; i<VSCP_DM_COUNT; i++){
         decisionMatrix[i].oaddr = eeprom_read(VSCP_DM_EEPROM_START_LOC + 8*i + 0);
         decisionMatrix[i].flags = eeprom_read(VSCP_DM_EEPROM_START_LOC + 8*i + 1);
         decisionMatrix[i].class_mask = eeprom_read(VSCP_DM_EEPROM_START_LOC + 8*i + 2);
@@ -122,8 +112,9 @@ void vscp_loadDecisionMatrixFromEEPROM(){
         decisionMatrix[i].action_param = eeprom_read(VSCP_DM_EEPROM_START_LOC + 8*i + 7);
     }
 }
+
 void vscp_saveDecisionMatrixToEEPROM(){
-    for (char i=0; i<VSCP_DM_SIZE; i++){
+    for (char i=0; i<VSCP_DM_COUNT; i++){
          eeprom_write(VSCP_DM_EEPROM_START_LOC + 8*i + 0, decisionMatrix[i].oaddr);
          eeprom_write(VSCP_DM_EEPROM_START_LOC + 8*i + 1, decisionMatrix[i].flags);
          eeprom_write(VSCP_DM_EEPROM_START_LOC + 8*i + 2, decisionMatrix[i].class_mask);
