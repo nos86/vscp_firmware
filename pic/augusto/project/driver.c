@@ -20,8 +20,7 @@ uint8_t hardware_subzoneForOutput[PIN_OUT_SIZE];
 timeBasedEventStruct timeEvent, timeOverride;
 
 void TMR0_setup();//Internal usage
-void hardware_loadEEPROM(uint16_t eeprom_start_sector);
-void hardware_saveEEPROM(uint16_t eeprom_start_sector);
+
 
 void hardware_sendInputInformation(int8_t idx, uint8_t type){
     vscp_omsg.vscp_class = VSCP_CLASS1_INFORMATION;
@@ -96,7 +95,7 @@ void hardware_10mS(){
         }
     }
 }
-void setOutput (unsigned char pin, unsigned char state){
+void hardware_setOutput (unsigned char pin, unsigned char state){
     if (pin>PIN_OUT_SIZE) return;
     state = state & 0x01;
     //Electrical info is working in negate logic
@@ -217,14 +216,13 @@ void hardware_setup(){
     for (char i=0; i<PIN_OUT_SIZE; i++)
         *(OUT_PIN_PORT[i] + OFFSET_LAT_TO_TRIS) &= (0xFF ^ OUT_PIN_NUM[i]); //offset is used to access to TRIS register
     
-    hardware_loadEEPROM(VSCP_BOARD_EEPROM_START);
+    hardware_loadEEPROM();
     for (uint8_t i=0; i<PIN_OUT_SIZE; i++){
-        hardware_input[i].currentStatus = 0;
-        if(hardware_input[i].reversedLogic)
+        hardware_output[i].currentStatus = 0;
+        if(hardware_output[i].reversedLogic)
             *(OUT_PIN_PORT[i]) &= (0xFF ^ OUT_PIN_NUM[i]);
         else
-            *(OUT_PIN_PORT[i]) |= (2^1);
-
+            *(OUT_PIN_PORT[i]) |= OUT_PIN_NUM[i];
     }
 
 
@@ -301,10 +299,10 @@ uint8_t hardware_writeRegister(uint8_t address, uint8_t value){
     else if (address<2*PIN_IN_SIZE) hardware_loadStructForInput(&(hardware_input[address-PIN_IN_SIZE]), value);
     else if (address<3*PIN_IN_SIZE) hardware_zoneForInput[address-2*PIN_IN_SIZE] = value;
     else if (address<4*PIN_IN_SIZE) hardware_subzoneForInput[address-3*PIN_IN_SIZE] = value;
-    else if (address<(4*PIN_IN_SIZE+PIN_OUT_SIZE)) setOutput(address-4*PIN_IN_SIZE, value & 0x01);
+    else if (address<(4*PIN_IN_SIZE+PIN_OUT_SIZE)) hardware_setOutput(address-4*PIN_IN_SIZE, value & 0x01);
     else if (address<(4*PIN_IN_SIZE+2*PIN_OUT_SIZE)){
         hardware_loadStructForOutput(&(hardware_output[address-4*PIN_IN_SIZE-PIN_OUT_SIZE]), value & 0xFE);
-        setOutput(address-4*PIN_IN_SIZE, value & 0x01);
+        hardware_setOutput(address-4*PIN_IN_SIZE, value & 0x01);
     }
     else if (address<(4*PIN_IN_SIZE+3*PIN_OUT_SIZE)) hardware_subzoneForOutput[address-4*PIN_IN_SIZE-2*PIN_OUT_SIZE] = value;
     else return 0xFF;
@@ -320,26 +318,26 @@ uint8_t hardware_writeRegister(uint8_t address, uint8_t value){
  *  Subzone for output: 1byte x PIN_OUT_SIZE
  *
  */
-void hardware_saveEEPROM(uint16_t eeprom_start_sector){
+void hardware_saveEEPROM(){
     for (uint8_t i=0; i<PIN_IN_SIZE; i++){
-        eeprom_write(eeprom_start_sector+i, hardware_saveStructForInput(hardware_input[i]));
-        eeprom_write(eeprom_start_sector+i+PIN_IN_SIZE, hardware_zoneForInput[i]);
-        eeprom_write(eeprom_start_sector+i+2*PIN_IN_SIZE, hardware_subzoneForInput[i]);
+        eeprom_write(VSCP_BOARD_EEPROM_START+i, hardware_saveStructForInput(hardware_input[i]));
+        eeprom_write(VSCP_BOARD_EEPROM_START+i+PIN_IN_SIZE, hardware_zoneForInput[i]);
+        eeprom_write(VSCP_BOARD_EEPROM_START+i+2*PIN_IN_SIZE, hardware_subzoneForInput[i]);
     }
     for (uint8_t i=0; i<PIN_OUT_SIZE; i++){
-        eeprom_write(eeprom_start_sector+i+3*PIN_IN_SIZE, hardware_saveStructForOutput(hardware_output[i]));
-        eeprom_write(eeprom_start_sector+i+3*PIN_IN_SIZE+PIN_OUT_SIZE, hardware_subzoneForOutput[i]);
+        eeprom_write(VSCP_BOARD_EEPROM_START+i+3*PIN_IN_SIZE, hardware_saveStructForOutput(hardware_output[i]));
+        eeprom_write(VSCP_BOARD_EEPROM_START+i+3*PIN_IN_SIZE+PIN_OUT_SIZE, hardware_subzoneForOutput[i]);
     }
 }
-void hardware_loadEEPROM(uint16_t eeprom_start_sector){
+void hardware_loadEEPROM(){
     for (uint8_t i=0; i<PIN_IN_SIZE; i++){
-        hardware_loadStructForInput(&(hardware_input[i]),eeprom_read(eeprom_start_sector+i));
-        hardware_zoneForInput[i] = eeprom_read(eeprom_start_sector+i+PIN_IN_SIZE);
-        hardware_subzoneForInput[i] = eeprom_read(eeprom_start_sector+i+2*PIN_IN_SIZE);
+        hardware_loadStructForInput(&(hardware_input[i]),eeprom_read(VSCP_BOARD_EEPROM_START+i));
+        hardware_zoneForInput[i] = eeprom_read(VSCP_BOARD_EEPROM_START+i+PIN_IN_SIZE);
+        hardware_subzoneForInput[i] = eeprom_read(VSCP_BOARD_EEPROM_START+i+2*PIN_IN_SIZE);
     }
     for (uint8_t i=0; i<PIN_OUT_SIZE; i++){
-        hardware_loadStructForOutput(&(hardware_output[i]),eeprom_read(eeprom_start_sector+i+3*PIN_IN_SIZE));
-        hardware_subzoneForOutput[i] = eeprom_read(eeprom_start_sector+i+3*PIN_IN_SIZE+PIN_OUT_SIZE);
+        hardware_loadStructForOutput(&(hardware_output[i]),eeprom_read(VSCP_BOARD_EEPROM_START+i+3*PIN_IN_SIZE));
+        hardware_subzoneForOutput[i] = eeprom_read(VSCP_BOARD_EEPROM_START+i+3*PIN_IN_SIZE+PIN_OUT_SIZE);
     }
 }
 

@@ -111,11 +111,8 @@ struct vscpBoard_outputVar{
     unsigned offEvent: 1;
     unsigned onEvent: 1;
 };
-
-void hardware_reinit(); //Internal usage
-
 void hardware_setup();
-void setOutput (unsigned char pin, unsigned char state);
+void hardware_setOutput (unsigned char pin, unsigned char state);
 uint8_t getInput (unsigned char pin);
 void TMR0_interrupt();
 void hardware_10mS();
@@ -126,6 +123,8 @@ void hardware_loadStructForOutput(struct vscpBoard_outputVar *out, uint8_t value
 void hardware_loadStructForInput(struct vscpBoard_inputVar *in, uint8_t value);
 uint8_t hardware_writeRegister(uint8_t address, uint8_t value);
 uint8_t hardware_readRegister(uint8_t address);
+void hardware_loadEEPROM();
+void hardware_saveEEPROM();
 
 #ifdef	__cplusplus
 }

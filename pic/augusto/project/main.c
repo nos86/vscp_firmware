@@ -49,10 +49,6 @@
 
 
 
-
-
-
-
 void _startup (void);
 extern timeBasedEventStruct timeEvent, timeOverride;
 
@@ -122,15 +118,20 @@ void main(){
 
 }
 
+void DelayedOutput(){
+    /* Command is used to switch on/off the lamp
+     * action-parameter is used to specify an optional delay (based on 100mS factor)
+     */
+}
 void CommandOutput(){
     for (uint8_t i=0; i<PIN_OUT_SIZE; i++){
         if(vscp_imsg.data[2]==hardware_subzoneForOutput[i]){
             switch (vscp_imsg.vscp_type){
                 case VSCP_TYPE_INFORMATION_OFF:
-                    setOutput(i, 0);
+                    hardware_setOutput(i, 0);
                     break;
                 case VSCP_TYPE_INFORMATION_ON:
-                    setOutput(i, 1);
+                    hardware_setOutput(i, 1);
                     break;
                 
             }
