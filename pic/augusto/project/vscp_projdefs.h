@@ -41,7 +41,8 @@
 #define APP_BOOTLOADER VSCP_BOOTLOADER_NONE
 #define APP_REG_PAGES 1
 
-
+#define PIN_OUT_SIZE 8
+#define PIN_IN_SIZE  8
 
 #define VSCP_DM_COUNT       16  //Number of Decision Matrix row
 #define VSCP_REG_DM_OFFSET  0x00

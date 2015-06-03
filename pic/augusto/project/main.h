@@ -38,9 +38,6 @@
 #define	TRUE			1
 #define	FALSE			0
 
-
-
-
 //
 // Size for array used for temp mean calculations
 //
@@ -58,22 +55,9 @@
 #define VSCP_ACTION_COMMAND_OUTPUT 0x01
 
 // Function Prototypes
-
-void doWork( void );
-void init( void );
 void init_app_ram( void );
 void init_app_eeprom( void ); 
 void read_app_register( unsigned char reg );
 void write_app_register( unsigned char reg, unsigned char val );
-void sendDMatrixInfo( void );
-void SendInformationEvent( unsigned char idx, unsigned char eventClass, unsigned char eventTypeId, unsigned char keyAction );
-
-void SendProbeAck (unsigned char buttontime);
-
-void doActionOn( unsigned char dmflags, unsigned char arg );
-void doActionOff( unsigned char dmflags, unsigned char arg );
-void doActionToggle( unsigned char dmflags, unsigned char arg );
-
-void doApplicationOneSecondWork( void );
 
 #endif

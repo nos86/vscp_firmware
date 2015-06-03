@@ -185,19 +185,6 @@ int8_t getVSCPFrame( uint16_t *pvscpclass, uint8_t *pvscptype, uint8_t *pNodeId,
 	return FALSE;
 }
 
-void sendDMatrixInfo( void ){
-/*	vscp_omsg.priority = VSCP_PRIORITY_MEDIUM;
-	vscp_omsg.flags = VSCP_VALID_MSG + 2;
-	vscp_omsg.vscp_class = VSCP_CLASS1_PROTOCOL;
-	vscp_omsg.vscp_type = VSCP_TYPE_PROTOCOL_GET_MATRIX_INFO_RESPONSE;
-
-	vscp_omsg.data[ 0 ] = DESCION_MATRIX_ELEMENTS;
-	vscp_omsg.data[ 1 ] = REG_DESCION_MATRIX;
-
-	vscp_sendEvent();	// Send data
- */
-}
-
 
 ///////////////////////////////////////////////////////////////////////////////
 //                        VSCP Required Methods
@@ -221,8 +208,6 @@ void vscp_getMatrixInfo(char *pData){
     *(pData+1) = VSCP_REG_DM_OFFSET;
     *(pData+2) = (char)((VSCP_REG_DM_PAGE >> 8 ) & 0xFF);
     *(pData+3) = (char)(VSCP_REG_DM_PAGE & 0xFF);
-    *(pData+4) = (char)((VSCP_REG_DM_PAGE >> 8 ) & 0xFF);
-    *(pData+5) = (char)(VSCP_REG_DM_PAGE & 0xFF);
 }
 
 

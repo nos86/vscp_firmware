@@ -18,28 +18,22 @@
 
 #include <xc.h>
 #include <inttypes.h>
+#include <vscp_projdefs.h>
 
 #ifdef	__cplusplus
 extern "C" {
 #endif
 
-#define PIN_OUT_SIZE 8
-#define PIN_IN_SIZE 8
 #define VSCP_BOARD_EEPROM_START 0x08
 #define VSCP_BOARD_EEPROM_LENGTH 3*PIN_IN_SIZE + 2*PIN_OUT_SIZE
-
-#define HARDWARE_SHORT_DEBOUNCE_THRESOLD  4
-#define HARDWARE_LONG_DEBOUNCE_THRESOLD 100
-
 
 #define OFFSET_PORT_TO_TRIS 0x12
 #define OFFSET_LAT_TO_TRIS  0x09
 #define TMR0H_INIT 0x63
 #define TMR0L_INIT 0xC0
 
-
-
-
+#define HARDWARE_SHORT_DEBOUNCE_THRESOLD  4
+#define HARDWARE_LONG_DEBOUNCE_THRESOLD 100
 #if (HARDWARE_LONG_DEBOUNCE_THRESOLD > 255)
     #error("Thresold is too big")
 #elif(HARDWARE_LONG_DEBOUNCE_THRESOLD <= HARDWARE_SHORT_DEBOUNCE_THRESOLD)
@@ -60,21 +54,19 @@ extern "C" {
 #define PICKIT_CH2 PORTBbits.RB6
 
 typedef struct {
-    unsigned   _1mS :1;
     unsigned  _10mS :1;
     unsigned _100mS :1;
     unsigned    _1s :1;
 }timeBasedEventStruct;
 
-extern uint8_t vscp_zone;
-extern struct _omsg vscp_omsg;
 extern struct vscpBoard_inputVar hardware_input[PIN_IN_SIZE];
 extern struct vscpBoard_outputVar hardware_output[PIN_OUT_SIZE];
 extern uint8_t hardware_zoneForInput[PIN_IN_SIZE];
 extern uint8_t hardware_subzoneForInput[PIN_IN_SIZE];
 extern uint8_t hardware_subzoneForOutput[PIN_OUT_SIZE];
+extern uint8_t vscp_zone;
 
-
+struct vscpBoard_inputVar{
 /* DEFINITION OF STATUS / CONFIGURATION BYTE OF INPUT PIN
  * bit 0: currentStatus
  * bit 1: Reversed logic
@@ -85,7 +77,6 @@ extern uint8_t hardware_subzoneForOutput[PIN_OUT_SIZE];
  * bit 6: ON / Opened event is required
  * bit 7: Button event is required
  */
-struct vscpBoard_inputVar{
     unsigned currentStatus: 1;
     unsigned reversedLogic: 1;
     unsigned doorLogic: 1;
@@ -94,7 +85,7 @@ struct vscpBoard_inputVar{
     unsigned buttonEvent: 1;
     unsigned debounce: 8; //For debounce time
 };
-
+struct vscpBoard_outputVar{
 /* DEFINITION OF STATUS / CONFIGURATION BYTE OF OUTPUT PIN
  * bit 0: currentStatus
  * bit 1: Reversed logic
@@ -105,26 +96,27 @@ struct vscpBoard_inputVar{
  * bit 6: ON is required
  * bit 7: Reserved for future use ****
  */
-struct vscpBoard_outputVar{
     unsigned currentStatus: 1;
     unsigned reversedLogic: 1;
     unsigned offEvent: 1;
     unsigned onEvent: 1;
 };
-void hardware_setup();
-void hardware_setOutput (unsigned char pin, unsigned char state);
-uint8_t getInput (unsigned char pin);
-void TMR0_interrupt();
-void hardware_10mS();
 
+void hardware_setup();
+void hardware_10mS();
+void hardware_loadEEPROM();
+void hardware_saveEEPROM();
 uint8_t hardware_saveStructForInput(struct vscpBoard_inputVar in);
 uint8_t hardware_saveStructForOutput(struct vscpBoard_outputVar out);
 void hardware_loadStructForOutput(struct vscpBoard_outputVar *out, uint8_t value);
 void hardware_loadStructForInput(struct vscpBoard_inputVar *in, uint8_t value);
+
+void hardware_setOutput (unsigned char pin, unsigned char state);
+uint8_t getInput (unsigned char pin);
+void TMR0_interrupt();
+
 uint8_t hardware_writeRegister(uint8_t address, uint8_t value);
 uint8_t hardware_readRegister(uint8_t address);
-void hardware_loadEEPROM();
-void hardware_saveEEPROM();
 
 extern void doDM(BOOL oMsg);
 #ifdef	__cplusplus
