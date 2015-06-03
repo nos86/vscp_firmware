@@ -36,7 +36,8 @@ void hardware_sendInputInformation(int8_t idx, uint8_t type){
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OPENED;
                 else
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_ON;
-            vscp_sendEvent();
+                doDM(TRUE);
+                vscp_sendEvent();
             }
             break;
         case VSCP_TYPE_INFORMATION_OFF:
@@ -45,7 +46,8 @@ void hardware_sendInputInformation(int8_t idx, uint8_t type){
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_CLOSED;
                 else
                     vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_OFF;
-            vscp_sendEvent();
+                doDM(TRUE);
+                vscp_sendEvent();
             }
             break;
         case VSCP_TYPE_INFORMATION_BUTTON:
@@ -53,10 +55,10 @@ void hardware_sendInputInformation(int8_t idx, uint8_t type){
                 vscp_omsg.vscp_type = VSCP_TYPE_INFORMATION_BUTTON;
                 if(hardware_input[idx].debounce>=HARDWARE_LONG_DEBOUNCE_THRESOLD)
                    vscp_omsg.data[0] = 2;
+                doDM(TRUE);
                 vscp_sendEvent();
             }
             break;
-
     }
 }
 

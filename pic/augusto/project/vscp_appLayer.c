@@ -30,7 +30,7 @@ void vscp_freeRunning(){
         vscp_handleProbeState();
         return;
     }else if (vscp_node_state == VSCP_STATE_ACTIVE){
-        if (vscp_imsg.flags & VSCP_VALID_MSG) doDM();
+        if (vscp_imsg.flags & VSCP_VALID_MSG) doDM(FALSE);
     }
 }
 void vscp_10mS_Running(){
@@ -78,24 +78,39 @@ void vscp_ledActivity(){
         vscp_ledPin = 1;
 }
 
-void doDM( ){
+void doDM(BOOL oMsg){
     unsigned char i;
     unsigned short class_filter;
     unsigned short class_mask;
+    struct _imsg *message;
+    struct _imsg temp;
+    if(oMsg){
+        temp.flags = vscp_omsg.flags;
+        temp.oaddr = vscp_nickname;
+        temp.priority = vscp_omsg.priority;
+        temp.vscp_class = vscp_omsg.vscp_class;
+        temp.vscp_type = vscp_omsg.vscp_type;
+        for(uint8_t i=0; i < (vscp_omsg.flags & 0x0F); i++)
+            temp.data[i] = vscp_omsg.data[i];
+        temp.flags |= VSCP_VALID_MSG;
+        message = &temp;
+    }else{
+        message = &vscp_imsg;
+    }
     // Don't deal with the control functionality
-    if ( VSCP_CLASS1_PROTOCOL == vscp_imsg.vscp_class ){ vscp_handleProtocolEvent(); return;}
+    if ( VSCP_CLASS1_PROTOCOL == (*message).vscp_class){ vscp_handleProtocolEvent(); return;}
     for ( i=0; i<VSCP_DM_COUNT; i++ ) {
         if ((decisionMatrix[i].flags & VSCP_DM_FLAG_ENABLED) == 0 ) continue; // Is the DM row enabled?
         if ( (decisionMatrix[i].flags & VSCP_DM_FLAG_CHECK_OADDR) && //Is the address checked?
-            (vscp_imsg.oaddr != decisionMatrix[i].oaddr)) continue;
+            ((*message).oaddr != decisionMatrix[i].oaddr)) continue;
         if ( decisionMatrix[i].flags & VSCP_DM_FLAG_CHECK_ZONE  ) { // Check if zone should match and if so if it match
-            if ((255 != vscp_imsg.data[ 1 ]) & (vscp_imsg.data[ 1 ] != vscp_zone )) continue;
+            if ((255 != (*message).data[ 1 ]) & ((*message).data[ 1 ] != vscp_zone )) continue;
         }
         class_filter = ( decisionMatrix[i].flags & VSCP_DM_FLAG_CLASS_FILTER )*256 + decisionMatrix[i].class_filter;
         class_mask = ( (decisionMatrix[i].flags & VSCP_DM_FLAG_CLASS_MASK) >0 )*256 + decisionMatrix[i].class_mask;
-        if ( !((class_filter ^ vscp_imsg.vscp_class) & class_mask) &&
-             !(( decisionMatrix[i].type_filter ^ vscp_imsg.vscp_type ) & decisionMatrix[i].type_mask )) 
-            doApplicationDM(decisionMatrix[i]);
+        if ( !((class_filter ^ (*message).vscp_class) & class_mask) &&
+             !(( decisionMatrix[i].type_filter ^ (*message).vscp_type ) & decisionMatrix[i].type_mask ))
+            doApplicationDM(decisionMatrix[i], message);
     } // for each row
 }
 

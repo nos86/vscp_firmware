@@ -76,5 +76,4 @@ void doActionToggle( unsigned char dmflags, unsigned char arg );
 
 void doApplicationOneSecondWork( void );
 
-
 #endif

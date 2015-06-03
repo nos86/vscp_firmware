@@ -29,7 +29,7 @@ extern const uint8_t GuID[16];
 
 /* Decision Matrix */
 extern struct _dmrow decisionMatrix[VSCP_DM_COUNT];
-extern void doApplicationDM(struct _dmrow row);
+void doApplicationDM(struct _dmrow row, struct _imsg *message);
 
 void init_app_eeprom();
 void vscp_freeRunning();
@@ -37,7 +37,7 @@ void vscp_10mS_Running();
 void vscp_100mS_Running();
 void vscp_ledActivity();
 
-void doDM();
+void doDM(BOOL oMsg);
 
 void init_augusto_ram( void );
 void init_augusto_eeprom();

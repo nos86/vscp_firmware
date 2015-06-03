@@ -123,9 +123,9 @@ void DelayedOutput(){
      * action-parameter is used to specify an optional delay (based on 100mS factor)
      */
 }
-void CommandOutput(){
+void CommandOutput(struct _imsg *message){
     for (uint8_t i=0; i<PIN_OUT_SIZE; i++){
-        if(vscp_imsg.data[2]==hardware_subzoneForOutput[i]){
+        if((*message).data[2]==hardware_subzoneForOutput[i]){
             switch (vscp_imsg.vscp_type){
                 case VSCP_TYPE_INFORMATION_OFF:
                     hardware_setOutput(i, 0);
@@ -139,10 +139,10 @@ void CommandOutput(){
     }
 }
 
-void doApplicationDM(struct _dmrow row){
+void doApplicationDM(struct _dmrow row, struct _imsg *message){
     switch(row.action){
         case VSCP_ACTION_COMMAND_OUTPUT:
-            CommandOutput();
+            CommandOutput(message);
             break;
         default:
             break;

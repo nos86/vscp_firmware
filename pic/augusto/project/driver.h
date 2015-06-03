@@ -126,6 +126,7 @@ uint8_t hardware_readRegister(uint8_t address);
 void hardware_loadEEPROM();
 void hardware_saveEEPROM();
 
+extern void doDM(BOOL oMsg);
 #ifdef	__cplusplus
 }
 #endif
