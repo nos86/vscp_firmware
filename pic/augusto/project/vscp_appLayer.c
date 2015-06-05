@@ -98,7 +98,12 @@ void doDM(BOOL oMsg){
         message = &vscp_imsg;
     }
     // Don't deal with the control functionality
-    if ( VSCP_CLASS1_PROTOCOL == (*message).vscp_class){ vscp_handleProtocolEvent(); return;}
+    if ( VSCP_CLASS1_PROTOCOL == (*message).vscp_class){
+        //TODO: optimize flow, filtering the type before run handleProtocolEvent
+        //in case of source address is different from 0
+        vscp_handleProtocolEvent();
+        return;
+    }
     for ( i=0; i<VSCP_DM_COUNT; i++ ) {
         if ((decisionMatrix[i].flags & VSCP_DM_FLAG_ENABLED) == 0 ) continue; // Is the DM row enabled?
         if ( (decisionMatrix[i].flags & VSCP_DM_FLAG_CHECK_OADDR) && //Is the address checked?
