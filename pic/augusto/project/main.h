@@ -34,6 +34,7 @@
 #ifndef MAIN_H
 #define MAIN_H
 
+#include "inttypes.h"
 //Defines
 #define	TRUE			1
 #define	FALSE			0

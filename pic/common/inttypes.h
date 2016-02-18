@@ -67,3 +67,8 @@ typedef unsigned char      	uint8_t;
 
 
 #endif
+
+#ifndef _BOOL
+#define _BOOL
+typedef enum { FALSE = 0, TRUE } BOOL;
+#endif
