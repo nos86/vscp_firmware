@@ -40,6 +40,12 @@ extern "C" {
     #error("Short Threshold must be smaller than Long Threshold")
 #endif
 
+#define HARDWARE_BOARD_TEMPERATURE 0
+#define HARDWARE_EXTERNAL_TEMPERATURE 1
+
+#define HARDWARE_ADC_MIN_VALUE  0x10
+#define HARDWARE_ADC_MAX_VALUE 0x3F0
+
 //VSCP button and led definition
 #define vscp_ledPin   PORTAbits.RA2
 #define vscp_ledTris  TRISAbits.TRISA2
@@ -101,9 +107,26 @@ struct vscpBoard_outputVar{
     unsigned offEvent: 1;
     unsigned onEvent: 1;
 };
+struct vscpBoard_temperature{
+   /* DEFINITION OF TEMPERATURE STRUCTURE
+    * 
+    * current_value = (raw - offset) * conversionFactor
+    * 
+    * filtered_value = filterCoefficient*filter_value +
+    *                  (1 - filterCoefficent) * current_value
+    */ 
+    uint8_t scheduleTime; //How often send message (1S based)
+    uint8_t currentScheduleTime; //Counter
+    uint8_t offset; //Electrical offset
+    float conversionFactor;
+    float filterCoefficient;
+    float value;
+    BOOL fault;
+};
 
 void hardware_setup();
 void hardware_10mS();
+void hardware_100mS(BOOL init);
 void hardware_loadEEPROM();
 void hardware_saveEEPROM();
 uint8_t hardware_saveStructForInput(struct vscpBoard_inputVar in);

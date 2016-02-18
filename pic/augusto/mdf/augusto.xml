@@ -1,0 +1,2732 @@
+<vscp>
+  <module>
+    <manufacturer>
+      <name>Musumeci Salvatore</name>
+      <address>
+        <street>-</street>
+        <town>
+        </town>
+        <city>Turin</city>
+        <postcode>10132</postcode>
+        <country>Italy</country>
+        <region>Piedmont</region>
+      </address>
+      <email>
+        <address>vscp@salvomusumeci.com</address>
+        <description>
+        </description>
+      </email>
+      <telephone>
+        <number>+393491068307</number>
+        <description>
+        </description>
+      </telephone>
+    </manufacturer>
+    <name>Augusto VSCP Module</name>
+    <model>A</model>
+    <version>1.0</version>
+    <buffersize>8</buffersize>
+    <infourl>http://www.vscp.org/</infourl>
+    <description>Base VSCP Module to control up to 8 output, 8 input, 2 temperature sensors, 4 analog input</description>
+    <registers>
+      <reg page="0" offset="0">
+        <name>Input 0: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="1">
+        <name>Input 1: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="2">
+        <name>Input 2: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="3">
+        <name>Input 3: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="4">
+        <name>Input 4: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="5">
+        <name>Input 5: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="6">
+        <name>Input 6: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="7">
+        <name>Input 7: Current Status</name>
+        <access>r</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="8">
+        <name>Input 0: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="8">
+        <name>Input 0: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="9">
+        <name>Input 1: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="10">
+        <name>Input 2: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="11">
+        <name>Input 3: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="12">
+        <name>Input 4: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="13">
+        <name>Input 5: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="14">
+        <name>Input 6: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="15">
+        <name>Input 7: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="4" width="1">
+          <name>Door Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Switch events (ON/OFF)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Door events (Open/Close)</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="5" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>Button Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="16">
+        <name>Input 0: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="17">
+        <name>Input 1: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="18">
+        <name>Input 2: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="19">
+        <name>Input 3: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="20">
+        <name>Input 4: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="21">
+        <name>Input 5: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="22">
+        <name>Input 6: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="23">
+        <name>Input 7: Zone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="24">
+        <name>Input 0: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="25">
+        <name>Input 1: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="26">
+        <name>Input 2: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="27">
+        <name>Input 3: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="28">
+        <name>Input 4: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="29">
+        <name>Input 5: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="30">
+        <name>Input 6: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="31">
+        <name>Input 7: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="32">
+        <name>Output 0: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="33">
+        <name>Output 1: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="34">
+        <name>Output 2: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="35">
+        <name>Output 3: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="36">
+        <name>Output 4: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="37">
+        <name>Output 5: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="38">
+        <name>Output 6: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="39">
+        <name>Output 7: Current Status</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <valuelist>
+          <item value="0x00">
+            <name>OFF</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+          <item value="0x01">
+            <name>ON</name>
+            <description>
+            </description>
+            <help type="text/url">
+            </help>
+          </item>
+        </valuelist>
+      </reg>
+      <reg page="0" offset="40">
+        <name>Output 0: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="41">
+        <name>Output 1: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="42">
+        <name>Output 2: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="43">
+        <name>Output 3: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="44">
+        <name>Output 4: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="45">
+        <name>Output 5: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="46">
+        <name>Output 6: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="47">
+        <name>Output 7: Data Structure</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+        <bit pos="0" width="1">
+          <name>Current Status</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>OFF</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>ON</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="1" width="1">
+          <name>Reverse Logic</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Positive Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Negative Logic</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="6" width="1">
+          <name>OFF Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+        <bit pos="7" width="1">
+          <name>ON Event</name>
+          <description>
+          </description>
+          <help type="text/url">
+          </help>
+          <valuelist>
+            <item value="0x00">
+              <name>Disabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+            <item value="0x01">
+              <name>Enabled</name>
+              <description>
+              </description>
+              <help type="text/url">
+              </help>
+            </item>
+          </valuelist>
+        </bit>
+      </reg>
+      <reg page="0" offset="48">
+        <name>Output 0: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="49">
+        <name>Output 1: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="50">
+        <name>Output 2: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="51">
+        <name>Output 3: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="52">
+        <name>Output 4: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="53">
+        <name>Output 5: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="54">
+        <name>Output 6: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+      <reg page="0" offset="55">
+        <name>Output 7: Subzone</name>
+        <access>rw</access>
+        <help type="text/url">
+        </help>
+        <description>
+        </description>
+      </reg>
+    </registers>
+    <dmatrix>
+      <help type="text/url">
+      </help>
+      <level>1</level>
+      <rowcnt>7</rowcnt>
+      <rowsize>8</rowsize>
+      <start page="0" offset="72" indexed="false" />
+    </dmatrix>
+  </module>
+</vscp>

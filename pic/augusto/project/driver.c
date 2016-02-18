@@ -11,9 +11,12 @@ char IN_PIN_NUM[PIN_IN_SIZE] = {0x10, 0x20, 0x40, 0x80, 0x01, 0x02, 0x10, 0x10};
 volatile unsigned char *OUT_PIN_PORT[PIN_OUT_SIZE] = {&LATC, &LATD, &LATD, &LATD, &LATD, &LATC, &LATC, &LATC};
 char OUT_PIN_NUM[PIN_OUT_SIZE] = {0x20, 0x08, 0x04, 0x02, 0x01, 0x04, 0x02, 0x01};
 
+char TEMP_SENSOR[2] = {HARDWARE_BOARD_TEMPERATURE, HARDWARE_EXTERNAL_TEMPERATURE};
+
 /* DEFINITION OF VARIABLES */
 struct vscpBoard_inputVar hardware_input[PIN_IN_SIZE];
 struct vscpBoard_outputVar hardware_output[PIN_OUT_SIZE];
+struct vscpBoard_temperature hardware_temperature[2];
 uint8_t hardware_zoneForInput[PIN_IN_SIZE];
 uint8_t hardware_subzoneForInput[PIN_IN_SIZE];
 uint8_t hardware_subzoneForOutput[PIN_OUT_SIZE];
@@ -62,6 +65,30 @@ void hardware_sendInputInformation(int8_t idx, uint8_t type){
     }
 }
 
+void hardware_100mS(BOOL init){
+    /* This task is used to calculate average temperatures coming from sensors*/
+    //Signal is first converted, then it's filter using a moving average filter
+    for(uint8_t i=0; i<2; i++){
+        uint16_t raw_value = 0; // ReadADC(TEMP_SENSOR[i]);
+        if (raw_value>HARDWARE_ADC_MAX_VALUE | raw_value<HARDWARE_ADC_MIN_VALUE){
+            float current_value;
+            hardware_temperature[i].fault = FALSE;
+            current_value = (raw_value - hardware_temperature[i].offset)
+                            * hardware_temperature[i].conversionFactor;
+            if(init){
+                hardware_temperature[i].value = current_value;
+            }else{
+                hardware_temperature[i].value = hardware_temperature[i].filterCoefficient
+                    * hardware_temperature[i].value + (1 - hardware_temperature[i].filterCoefficient)
+                    * current_value;
+            }
+        }else
+            hardware_temperature[i].fault = TRUE;
+        
+    }
+
+
+}
 void hardware_10mS(){
     uint8_t newState;
     for (uint8_t i = 0; i < PIN_IN_SIZE; i++){
